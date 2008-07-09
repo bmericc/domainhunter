@@ -1,0 +1,5 @@
+INSTALLITION
+
+* create database and import domainhunter.sql
+* editing config.inc.php
+* add cron cron.php file ( 0 22 * * * php SCRIPT LOCATION/cron.php >/dev/null 2>&1 )
