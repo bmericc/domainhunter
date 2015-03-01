@@ -1,0 +1,3 @@
+Domain Hunter - A Simple Domain Monitoring Application
+
+Domain Hunter is a simple application to monitor the state of a list of domain names. Changes in the status of a monitored domain can be sent to an email address or the domain information can be obtained on demand through a Web interface. Only the .com and .net top-level domains are currently supported.
