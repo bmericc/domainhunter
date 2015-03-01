@@ -1,3 +1,11 @@
+0.1.2 - 01/03/2015
+* fixed minor bug
+* changed project owner web site
+
+0.1.1 - 29/03/2012
+* fixed XSS bug
+* changed project logo
+
 0.1.0 - 21/11/2007
 * fixed upper case problem add new domain
 * add delete domain function
