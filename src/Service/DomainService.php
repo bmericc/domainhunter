@@ -60,26 +60,36 @@ class DomainService
     private function parseDomain(string $input): array
     {
         $input = strtolower(trim($input));
-        $input = preg_replace('/^www\./', '', $input);
+        $input = preg_replace('/^www\./', '', $input) ?? $input;
         $parts = explode('.', $input);
 
         if (count($parts) < 2) {
-            throw new \InvalidArgumentException("Invalid domain. Example: example.com");
+            throw new \InvalidArgumentException("Invalid domain format. Example: example.com or example.com.tr");
+        }
+
+        // Detect compound TLDs (e.g. com.tr, co.uk, com.au) before falling back to single-part
+        if (count($parts) >= 3) {
+            $candidate = $parts[count($parts) - 2] . '.' . $parts[count($parts) - 1];
+            if (in_array($candidate, $this->whois->compoundTlds(), true)) {
+                $label = implode('.', array_slice($parts, 0, -2));
+                return $this->validateLabel($label, $candidate);
+            }
         }
 
         $tld   = array_pop($parts);
         $label = implode('.', $parts);
 
+        return $this->validateLabel($label, $tld);
+    }
+
+    private function validateLabel(string $label, string $tld): array
+    {
         if (strlen($label) < 2) {
             throw new \InvalidArgumentException("Domain label is too short.");
         }
         if (!preg_match('/^[a-z0-9]([a-z0-9\-]{0,61}[a-z0-9])?$/', $label)) {
             throw new \InvalidArgumentException("Domain label contains invalid characters.");
         }
-        if (!in_array($tld, ['com', 'net', 'org'], true)) {
-            throw new \InvalidArgumentException("Only .com, .net, and .org are supported.");
-        }
-
         return ['label' => $label, 'tld' => $tld];
     }
 
