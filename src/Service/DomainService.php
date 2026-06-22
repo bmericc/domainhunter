@@ -5,13 +5,17 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Repository\DomainRepository;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 
 class DomainService
 {
     public function __construct(
-        private readonly WhoisService     $whois,
-        private readonly DomainRepository $repository,
-        private readonly string           $alertEmail,
+        private readonly WhoisService      $whois,
+        private readonly DomainRepository  $repository,
+        private readonly string            $alertEmail,
+        private readonly ?MailerInterface  $mailer = null,
+        private readonly string            $mailerFrom = '',
     ) {}
 
     /**
@@ -183,8 +187,22 @@ class DomainService
 
     private function sendAlert(string $domain, array $changes): void
     {
-        $body    = "Domain alert for $domain\n\n" . implode("\n", $changes) . "\n\nDomain Hunter";
-        $subject = "Domain alert for $domain";
-        mail($this->alertEmail, $subject, $body, 'From: domainhunter@' . gethostname());
+        $subject = "Domain alert: $domain";
+        $body    = "Domain Hunter detected changes for $domain\n\n"
+                 . implode("\n", $changes)
+                 . "\n\n--\nDomain Hunter";
+        $from    = $this->mailerFrom ?: ('domainhunter@' . gethostname());
+
+        if ($this->mailer !== null) {
+            $email = (new Email())
+                ->from($from)
+                ->to($this->alertEmail)
+                ->subject($subject)
+                ->text($body);
+            $this->mailer->send($email);
+            return;
+        }
+
+        mail($this->alertEmail, $subject, $body, "From: $from");
     }
 }

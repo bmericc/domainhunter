@@ -5,6 +5,8 @@ declare(strict_types=1);
 use App\Repository\DomainRepository;
 use App\Service\DomainService;
 use App\Service\WhoisService;
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\Transport;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -25,4 +27,10 @@ $pdo = buildPdo($settings['db']);
 
 $repository = new DomainRepository($pdo);
 $whois      = new WhoisService();
-$service    = new DomainService($whois, $repository, $settings['app']['alert_email']);
+
+$app    = $settings['app'];
+$mailer = $app['mailer_dsn'] !== ''
+    ? new Mailer(Transport::fromDsn($app['mailer_dsn']))
+    : null;
+
+$service = new DomainService($whois, $repository, $app['alert_email'], $mailer, $app['mailer_from']);

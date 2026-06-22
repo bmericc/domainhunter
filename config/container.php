@@ -7,6 +7,8 @@ use App\Service\DomainService;
 use App\Service\WhoisService;
 use Psr\Container\ContainerInterface;
 use Slim\Views\Twig;
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\Transport;
 
 return [
     'settings' => fn() => require __DIR__ . '/settings.php',
@@ -25,11 +27,19 @@ return [
 
     WhoisService::class => fn() => new WhoisService(),
 
-    DomainService::class => fn(ContainerInterface $c) => new DomainService(
-        $c->get(WhoisService::class),
-        $c->get(DomainRepository::class),
-        $c->get('settings')['app']['alert_email'],
-    ),
+    DomainService::class => function (ContainerInterface $c) {
+        $app    = $c->get('settings')['app'];
+        $mailer = $app['mailer_dsn'] !== ''
+            ? new Mailer(Transport::fromDsn($app['mailer_dsn']))
+            : null;
+        return new DomainService(
+            $c->get(WhoisService::class),
+            $c->get(DomainRepository::class),
+            $app['alert_email'],
+            $mailer,
+            $app['mailer_from'],
+        );
+    },
 ];
 
 function buildPdo(array $db): PDO

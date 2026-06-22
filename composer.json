@@ -11,6 +11,7 @@
         "slim/slim": "^4.12",
         "slim/twig-view": "^3.3",
         "symfony/console": "^7.0",
+        "symfony/mailer": "^7.0",
         "vlucas/phpdotenv": "^5.5"
     },
     "autoload": {
