@@ -4,6 +4,12 @@ on:
   push:
     tags:
       - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g. v2.0.0)'
+        required: true
+        default: 'v2.0.0'
 
 jobs:
   build-and-release:
@@ -11,6 +17,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: master
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -22,15 +30,19 @@ jobs:
       - name: Build PHAR
         run: php -d phar.readonly=0 bin/build.php
 
-      - name: Get tag version
-        id: tag
-        run: echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+      - name: Determine version
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "tag=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
+          else
+            echo "tag=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+          fi
 
       - name: Read changelog excerpt
         id: changelog
         run: |
-          # Extract the section for this version from CHANGELOG.md
-          VERSION="${{ steps.tag.outputs.version }}"
+          VERSION="${{ steps.version.outputs.tag }}"
           VERSION_BARE="${VERSION#v}"
           BODY=$(awk "/^## \[${VERSION_BARE}\]/{found=1; next} found && /^## \[/{exit} found{print}" CHANGELOG.md)
           echo "body<<EOF" >> $GITHUB_OUTPUT
@@ -40,7 +52,8 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          name: "Domain Hunter ${{ steps.tag.outputs.version }}"
+          tag_name: ${{ steps.version.outputs.tag }}
+          name: "Domain Hunter ${{ steps.version.outputs.tag }}"
           body: ${{ steps.changelog.outputs.body }}
           files: builds/dh.phar
           draft: false
