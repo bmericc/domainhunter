@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Domain Hunter</title>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            font-size: 14px;
+            background: #f5f7fa;
+            color: #1a1a2e;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #16213e;
+            color: #e0e0e0;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            height: 56px;
+        }
+        header h1 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: .04em;
+            color: #f0a500;
+        }
+        nav a {
+            color: #b0bec5;
+            text-decoration: none;
+            padding: .25rem .75rem;
+            border-radius: 4px;
+            transition: background .15s;
+        }
+        nav a:hover { background: rgba(255,255,255,.08); color: #fff; }
+
+        main { max-width: 1100px; margin: 2rem auto; padding: 0 1rem; }
+
+        .card {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 1px 4px rgba(0,0,0,.08);
+            padding: 1.5rem;
+        }
+
+        h2 { font-size: 1rem; font-weight: 600; margin-bottom: 1rem; color: #16213e; }
+
+        table { width: 100%; border-collapse: collapse; }
+        th {
+            text-align: left;
+            font-weight: 600;
+            font-size: .75rem;
+            text-transform: uppercase;
+            letter-spacing: .05em;
+            color: #607d8b;
+            padding: .6rem .75rem;
+            border-bottom: 2px solid #eceff1;
+            white-space: nowrap;
+        }
+        th a { color: inherit; text-decoration: none; }
+        th a:hover { color: #f0a500; }
+        td { padding: .55rem .75rem; border-bottom: 1px solid #f0f0f0; vertical-align: middle; }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: #f9fafb; }
+
+        .badge {
+            display: inline-block;
+            padding: .15rem .55rem;
+            border-radius: 999px;
+            font-size: .7rem;
+            font-weight: 600;
+            background: #e3f2fd;
+            color: #1565c0;
+        }
+        .badge-ok   { background: #e8f5e9; color: #2e7d32; }
+        .badge-warn { background: #fff8e1; color: #f57f17; }
+        .badge-err  { background: #fce4ec; color: #c62828; }
+
+        .btn {
+            display: inline-block;
+            padding: .35rem .9rem;
+            border-radius: 5px;
+            font-size: .8rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: opacity .15s;
+            text-decoration: none;
+        }
+        .btn:hover { opacity: .85; }
+        .btn-primary { background: #f0a500; color: #fff; }
+        .btn-danger  { background: #ef5350; color: #fff; padding: .25rem .65rem; }
+        .btn-sm      { font-size: .75rem; padding: .25rem .65rem; }
+
+        .alert {
+            padding: .75rem 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            font-size: .875rem;
+        }
+        .alert-success { background: #e8f5e9; color: #2e7d32; border-left: 4px solid #43a047; }
+        .alert-error   { background: #fce4ec; color: #c62828; border-left: 4px solid #ef5350; }
+
+        .form-group { margin-bottom: 1rem; }
+        label { display: block; font-weight: 600; margin-bottom: .35rem; font-size: .85rem; }
+        input[type=text] {
+            width: 100%;
+            max-width: 360px;
+            padding: .5rem .75rem;
+            border: 1px solid #cfd8dc;
+            border-radius: 5px;
+            font-size: .9rem;
+            outline: none;
+            transition: border-color .15s;
+        }
+        input[type=text]:focus { border-color: #f0a500; box-shadow: 0 0 0 3px rgba(240,165,0,.15); }
+
+        .pagination { display: flex; gap: .4rem; margin-top: 1rem; justify-content: flex-end; }
+        .pagination a, .pagination span {
+            padding: .3rem .7rem;
+            border-radius: 4px;
+            font-size: .8rem;
+            text-decoration: none;
+            color: #16213e;
+            background: #eceff1;
+        }
+        .pagination a:hover  { background: #cfd8dc; }
+        .pagination .current { background: #f0a500; color: #fff; font-weight: 700; }
+
+        .domain-link { color: #1565c0; text-decoration: none; font-weight: 500; }
+        .domain-link:hover { text-decoration: underline; }
+
+        .text-muted { color: #90a4ae; font-size: .8rem; }
+        .count-badge { font-weight: 700; color: #f0a500; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>&#127758; Domain Hunter</h1>
+        <nav>
+            <a href="/">Domains</a>
+            <a href="/domains/add">+ Add Domain</a>
+        </nav>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>
