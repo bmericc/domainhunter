@@ -59,7 +59,20 @@ DB_PASS=secret
 
 # E-posta uyarıları (değişiklik olunca bildir)
 ALERT_EMAIL=admin@example.com
+
+# SMTP (ayarlanmazsa PHP mail() kullanılır)
+MAILER_DSN=smtp://user:pass@smtp.example.com:587
+MAILER_FROM=domainhunter@example.com
 ```
+
+`MAILER_DSN` örnekleri:
+
+| Senaryo | DSN |
+|---------|-----|
+| Genel SMTP | `smtp://user:pass@smtp.example.com:587` |
+| Gmail | `smtp://user:app-pass@smtp.gmail.com:465?encryption=tls` |
+| Sunucu MTA (Postfix vb.) | `native://default` |
+| Ayarsız (PHP mail()) | — boş bırakın —
 
 ### Veritabanı Şeması
 
