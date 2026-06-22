@@ -1,0 +1,29 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+<div class="card" style="max-width:480px">
+    <h2>Add Domain</h2>
+
+    {% if error %}
+        <div class="alert alert-error">{{ error }}</div>
+    {% endif %}
+    {% if success %}
+        <div class="alert alert-success">
+            {{ success }}
+            <br><a href="/">Back to domain list</a>
+        </div>
+    {% endif %}
+
+    <form method="post" action="/domains/add">
+        <div class="form-group">
+            <label for="domain">Domain name</label>
+            <input type="text" id="domain" name="domain"
+                   placeholder="example.com"
+                   autocomplete="off" spellcheck="false">
+            <p class="text-muted" style="margin-top:.4rem">Supported: .com, .net, .org</p>
+        </div>
+        <button type="submit" class="btn btn-primary">Add &amp; Query WHOIS</button>
+        <a href="/" class="btn btn-sm" style="background:#eceff1;margin-left:.5rem">Cancel</a>
+    </form>
+</div>
+{% endblock %}
