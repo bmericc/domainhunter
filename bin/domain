@@ -1,0 +1,19 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+use App\Command\DomainAddCommand;
+use App\Command\DomainDeleteCommand;
+use App\Command\DomainListCommand;
+use App\Command\DomainRefreshCommand;
+use Symfony\Component\Console\Application;
+
+require __DIR__ . '/bootstrap.php';
+
+$app = new Application('Domain Hunter', '2.0.0');
+$app->add(new DomainAddCommand($service));
+$app->add(new DomainListCommand($repository));
+$app->add(new DomainDeleteCommand($repository));
+$app->add(new DomainRefreshCommand($service));
+$app->run();

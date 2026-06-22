@@ -23,6 +23,11 @@ class DomainRepository
         return $stmt->fetchAll();
     }
 
+    public function all(string $orderSql = 'hunter_update DESC'): array
+    {
+        return $this->pdo->query("SELECT * FROM monitors ORDER BY $orderSql")->fetchAll();
+    }
+
     public function findByDomain(string $domain): ?array
     {
         $stmt = $this->pdo->prepare('SELECT * FROM monitors WHERE domain = :domain');
@@ -37,13 +42,9 @@ class DomainRepository
         return (int) $stmt->fetchColumn() > 0;
     }
 
-    public function all(): array
-    {
-        return $this->pdo->query('SELECT * FROM monitors')->fetchAll();
-    }
-
     public function insert(array $data): void
     {
+        $data[':hunter_update'] = date('Y-m-d H:i:s');
         $stmt = $this->pdo->prepare('
             INSERT INTO monitors
                 (domain, register, whois_serv, ref_url,
@@ -54,13 +55,14 @@ class DomainRepository
                 (:domain, :register, :whois_serv, :ref_url,
                  :nameserv1, :nameserv2, :nameserv3, :nameserv4, :nameserv5,
                  :status1, :status2, :status3,
-                 :create_date, :update_date, :expirate_date, NOW())
+                 :create_date, :update_date, :expirate_date, :hunter_update)
         ');
         $stmt->execute($data);
     }
 
     public function update(string $domain, array $data): void
     {
+        $data[':hunter_update'] = date('Y-m-d H:i:s');
         $stmt = $this->pdo->prepare('
             UPDATE monitors SET
                 register      = :register,
@@ -77,7 +79,7 @@ class DomainRepository
                 create_date   = :create_date,
                 update_date   = :update_date,
                 expirate_date = :expirate_date,
-                hunter_update = NOW()
+                hunter_update = :hunter_update
             WHERE domain = :domain
         ');
         $stmt->execute($data);
@@ -87,5 +89,12 @@ class DomainRepository
     {
         $stmt = $this->pdo->prepare('DELETE FROM monitors WHERE id = :id');
         $stmt->execute([':id' => $id]);
+    }
+
+    public function deleteByDomain(string $domain): bool
+    {
+        $stmt = $this->pdo->prepare('DELETE FROM monitors WHERE domain = :domain');
+        $stmt->execute([':domain' => $domain]);
+        return $stmt->rowCount() > 0;
     }
 }
