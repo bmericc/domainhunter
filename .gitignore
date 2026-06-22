@@ -1,0 +1,4 @@
+/vendor/
+/builds/*.phar
+*.sqlite
+.env
