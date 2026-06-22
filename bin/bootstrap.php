@@ -8,12 +8,18 @@ use App\Service\WhoisService;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
-$dotenv->safeLoad();
+// .env'i PHAR dışında ara: önce PHAR yanında, sonra CWD'de
+$pharFile = \Phar::running(false);
+if ($pharFile !== '') {
+    $pharDir = dirname($pharFile);
+    $envDir  = file_exists($pharDir . '/.env') ? $pharDir : (getcwd() ?: $pharDir);
+} else {
+    $envDir = dirname(__DIR__);
+}
+Dotenv\Dotenv::createImmutable($envDir)->safeLoad();
 
 $settings = require __DIR__ . '/../config/settings.php';
 
-// Re-use the same PDO factory defined in config/container.php
 require_once __DIR__ . '/../config/container.php';
 $pdo = buildPdo($settings['db']);
 
