@@ -44,14 +44,12 @@ $phar = new Phar($outFile);
 $phar->setSignatureAlgorithm(Phar::SHA256);
 $phar->startBuffering();
 
-/**
- * Bir dizini PHAR'a ekler; sadece $regex ile eşleşen dosyaları alır.
- */
-$addDir = static function (Phar $p, string $srcDir, string $pharBase, string $regex): void {
+$addDir = static function (Phar $p, string $srcDir, string $pharBase, string $regex): int {
     if (!is_dir($srcDir)) {
-        return;
+        return 0;
     }
-    $iter = new RecursiveIteratorIterator(
+    $count = 0;
+    $iter  = new RecursiveIteratorIterator(
         new RecursiveDirectoryIterator($srcDir, FilesystemIterator::SKIP_DOTS)
     );
     foreach ($iter as $file) {
@@ -61,56 +59,45 @@ $addDir = static function (Phar $p, string $srcDir, string $pharBase, string $re
         $rel      = str_replace([$srcDir, DIRECTORY_SEPARATOR], ['', '/'], $file->getPathname());
         $pharPath = $pharBase . '/' . ltrim($rel, '/');
         $p->addFile((string) $file, $pharPath);
+        $count++;
     }
+    return $count;
 };
 
-$counts = [];
-
-$tasks = [
-    ['src',       'src',       '/\.php$/'],
-    ['config',    'config',    '/\.php$/'],
-    ['templates', 'templates', '/\.twig$/'],
-    ['vendor',    'vendor',    '/\.(php|json)$/'],
-];
-
-foreach ($tasks as [$dir, $base, $regex]) {
-    $before = count($phar);
-    $addDir($phar, $root . '/' . $dir, $base, $regex);
-    $counts[$dir] = count($phar) - $before;
-    echo "   + $dir/ ({$counts[$dir]} dosya)\n";
+// CLI PHAR: web dosyaları (templates/, public/) dahil değil
+foreach ([
+    ['src',    'src',    '/\.php$/'],
+    ['config', 'config', '/\.php$/'],
+    ['vendor', 'vendor', '/\.(php|json)$/'],
+] as [$dir, $base, $regex]) {
+    $n = $addDir($phar, $root . '/' . $dir, $base, $regex);
+    echo "   + $dir/ ($n dosya)\n";
 }
 
-// CLI ve web entry point'leri ekle
-foreach (['bin/bootstrap.php', 'bin/dh', 'public/index.php'] as $file) {
+foreach (['bin/bootstrap.php', 'bin/dh'] as $file) {
     $phar->addFile($root . '/' . $file, $file);
 }
-echo "   + bin/bootstrap.php, bin/dh, public/index.php\n";
+echo "   + bin/bootstrap.php, bin/dh\n";
 
-// ── Çift modlu stub: CLI veya web ────────────────────────────────────────────
+// ── CLI stub ─────────────────────────────────────────────────────────────────
 
 $stub = <<<'PHP'
 #!/usr/bin/env php
 <?php
 /**
- * Domain Hunter — dh.phar
+ * Domain Hunter CLI — dh.phar
  *
- * CLI modu : php dh.phar domain:list
- * Web modu : php -S localhost:8080 dh.phar
- *            (veya Apache/Nginx'i dh.phar'a yönlendir)
+ * Kullanım:
+ *   php dh.phar domain:add example.com.tr
+ *   php dh.phar domain:list
+ *   php dh.phar domain:refresh
  *
- * .env      : PHAR'ın yanına veya CWD'ye koyun
- * Veritabanı: DB_DRIVER=sqlite (varsayılan) veya DB_DRIVER=mysql
+ * Yapılandırma:
+ *   .env dosyasını PHAR'ın yanına koyun (DB_DRIVER, DB_PATH, ALERT_EMAIL…)
+ *   Varsayılan: SQLite, domainhunter.sqlite @ CWD
  */
 Phar::mapPhar('dh.phar');
-
-if (PHP_SAPI === 'cli') {
-    require 'phar://dh.phar/bin/dh';
-} else {
-    // Slim'in URL oluşturma için SCRIPT_NAME boş olmalı
-    $_SERVER['SCRIPT_NAME'] = '';
-    require 'phar://dh.phar/public/index.php';
-}
-
+require 'phar://dh.phar/bin/dh';
 __HALT_COMPILER();
 PHP;
 
@@ -122,14 +109,15 @@ chmod($outFile, 0755);
 
 $kb = (int) round(filesize($outFile) / 1024);
 echo "\n✓ Hazır: builds/dh.phar ({$kb} KB)\n\n";
-echo "  Kullanım:\n";
-echo "    php builds/dh.phar list                    # tüm komutları göster\n";
-echo "    php builds/dh.phar domain:add example.com\n";
-echo "    php builds/dh.phar domain:list\n";
-echo "    php -S localhost:8080 builds/dh.phar       # web arayüzü\n\n";
-echo "  Kolay erişim:\n";
+echo "  Hızlı başlangıç:\n";
 echo "    cp builds/dh.phar /usr/local/bin/dh && chmod +x /usr/local/bin/dh\n";
-echo "    dh domain:add example.com.tr\n\n";
+echo "    dh domain:add example.com\n";
+echo "    dh domain:add türkiye.com.tr\n";
+echo "    dh domain:list --order=expiry\n";
+echo "    dh domain:refresh\n\n";
+echo "  .env (opsiyonel, dh yanına):\n";
+echo "    DB_DRIVER=sqlite          # veya mysql\n";
+echo "    ALERT_EMAIL=admin@foo.com\n\n";
 
 // Dev bağımlılıklarını geri yükle
 echo "→ composer install (dev bağımlılıkları geri yükleniyor)\n";
