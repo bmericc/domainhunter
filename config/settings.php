@@ -24,6 +24,8 @@ return [
     ],
     'app' => [
         'alert_email' => $_ENV['ALERT_EMAIL'] ?? '',
+        'mailer_dsn'  => $_ENV['MAILER_DSN']  ?? '',
+        'mailer_from' => $_ENV['MAILER_FROM'] ?? '',
         'per_page'    => 20,
     ],
     'twig' => [
