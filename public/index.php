@@ -7,8 +7,10 @@ use Slim\Factory\AppFactory;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
-$dotenv->safeLoad();
+// .env'i PHAR dışında ara: PHAR yanı veya proje kökü
+$pharFile = \Phar::running(false);
+$envDir   = $pharFile !== '' ? dirname($pharFile) : dirname(__DIR__);
+Dotenv\Dotenv::createImmutable($envDir)->safeLoad();
 
 $builder = new ContainerBuilder();
 $builder->addDefinitions(require __DIR__ . '/../config/container.php');
