@@ -80,18 +80,18 @@ class WhoisService
         'is'     => ['host' => 'whois.isnic.is',             'free' => 'No entries found'],
 
         // ── Turkey ───────────────────────────────────────────────────────────
-        'tr'     => ['host' => 'whois.nic.tr',               'free' => 'Not found in database', 'parser' => 'tr'],
-        'com.tr' => ['host' => 'whois.nic.tr',               'free' => 'Not found in database', 'parser' => 'tr'],
-        'net.tr' => ['host' => 'whois.nic.tr',               'free' => 'Not found in database', 'parser' => 'tr'],
-        'org.tr' => ['host' => 'whois.nic.tr',               'free' => 'Not found in database', 'parser' => 'tr'],
-        'edu.tr' => ['host' => 'whois.nic.tr',               'free' => 'Not found in database', 'parser' => 'tr'],
-        'gov.tr' => ['host' => 'whois.nic.tr',               'free' => 'Not found in database', 'parser' => 'tr'],
-        'web.tr' => ['host' => 'whois.nic.tr',               'free' => 'Not found in database', 'parser' => 'tr'],
-        'bel.tr' => ['host' => 'whois.nic.tr',               'free' => 'Not found in database', 'parser' => 'tr'],
-        'k12.tr' => ['host' => 'whois.nic.tr',               'free' => 'Not found in database', 'parser' => 'tr'],
-        'pol.tr' => ['host' => 'whois.nic.tr',               'free' => 'Not found in database', 'parser' => 'tr'],
-        'av.tr'  => ['host' => 'whois.nic.tr',               'free' => 'Not found in database', 'parser' => 'tr'],
-        'dr.tr'  => ['host' => 'whois.nic.tr',               'free' => 'Not found in database', 'parser' => 'tr'],
+        'tr'     => ['host' => 'whois.trabis.gov.tr',               'free' => 'Not found in database', 'parser' => 'tr'],
+        'com.tr' => ['host' => 'whois.trabis.gov.tr',               'free' => 'Not found in database', 'parser' => 'tr'],
+        'net.tr' => ['host' => 'whois.trabis.gov.tr',               'free' => 'Not found in database', 'parser' => 'tr'],
+        'org.tr' => ['host' => 'whois.trabis.gov.tr',               'free' => 'Not found in database', 'parser' => 'tr'],
+        'edu.tr' => ['host' => 'whois.trabis.gov.tr',               'free' => 'Not found in database', 'parser' => 'tr'],
+        'gov.tr' => ['host' => 'whois.trabis.gov.tr',               'free' => 'Not found in database', 'parser' => 'tr'],
+        'web.tr' => ['host' => 'whois.trabis.gov.tr',               'free' => 'Not found in database', 'parser' => 'tr'],
+        'bel.tr' => ['host' => 'whois.trabis.gov.tr',               'free' => 'Not found in database', 'parser' => 'tr'],
+        'k12.tr' => ['host' => 'whois.trabis.gov.tr',               'free' => 'Not found in database', 'parser' => 'tr'],
+        'pol.tr' => ['host' => 'whois.trabis.gov.tr',               'free' => 'Not found in database', 'parser' => 'tr'],
+        'av.tr'  => ['host' => 'whois.trabis.gov.tr',               'free' => 'Not found in database', 'parser' => 'tr'],
+        'dr.tr'  => ['host' => 'whois.trabis.gov.tr',               'free' => 'Not found in database', 'parser' => 'tr'],
 
         // ── UK SLDs ──────────────────────────────────────────────────────────
         'co.uk'  => ['host' => 'whois.nic.uk',               'free' => 'No match for'],
@@ -354,7 +354,7 @@ class WhoisService
     }
 
     /**
-     * Parser for whois.nic.tr responses.
+     * Parser for whois.trabis.gov.tr responses.
      *
      * The Turkish NIC uses a sectioned format with "** Section:" headers,
      * tabbed key-value pairs, and bare hostnames for name servers.
