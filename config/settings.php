@@ -16,11 +16,13 @@ return [
         'pass'    => $_ENV['DB_PASS']   ?? '',
         'charset' => 'utf8mb4',
         // PHAR modunda CWD'ye yaz; normal modda proje altına
-        'path'    => $_ENV['DB_PATH'] ?? (
-            $isPhar
+        'path'    => isset($_ENV['DB_PATH'])
+            ? (($_ENV['DB_PATH'][0] === '/' || (strlen($_ENV['DB_PATH']) > 1 && $_ENV['DB_PATH'][1] === ':'))
+                ? $_ENV['DB_PATH']
+                : dirname(__DIR__) . DIRECTORY_SEPARATOR . $_ENV['DB_PATH'])
+            : ($isPhar
                 ? (getcwd() . DIRECTORY_SEPARATOR . 'domainhunter.sqlite')
-                : dirname(__DIR__) . '/database/domainhunter.sqlite'
-        ),
+                : dirname(__DIR__) . '/database/domainhunter.sqlite'),
     ],
     'app' => [
         'lang'        => strtolower($_ENV['APP_LANG'] ?? 'en'),
