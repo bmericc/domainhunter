@@ -46,6 +46,9 @@ dh domain:list
 `.env` dosyası (PHAR kullanımında `dh.phar` yanına ya da çalışma dizinine):
 
 ```ini
+# Web arayüzü dili: en | tr | de | es | pt | ru  (varsayılan: en)
+APP_LANG=tr
+
 # SQLite (varsayılan — sıfır-konfigürasyon)
 DB_DRIVER=sqlite
 DB_PATH=/var/lib/domainhunter/domainhunter.sqlite

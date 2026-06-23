@@ -3,35 +3,35 @@
 {% block content %}
 <div class="card">
     <h2>
-        Monitored Domains
+        {{ t.heading_list }}
         <span class="count-badge">({{ total }})</span>
-        <a href="/domains/add" class="btn btn-primary btn-sm" style="float:right">+ Add Domain</a>
+        <a href="/domains/add" class="btn btn-primary btn-sm" style="float:right">{{ t.nav_add }}</a>
     </h2>
 
     {% if domains is empty %}
-        <p class="text-muted" style="padding:1rem 0">No domains monitored yet. <a href="/domains/add">Add one.</a></p>
+        <p class="text-muted" style="padding:1rem 0">{{ t.no_domains }} <a href="/domains/add">{{ t.add_one }}</a></p>
     {% else %}
         <table>
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Domain</th>
-                    <th>Status</th>
-                    <th>Registrar</th>
-                    <th>Created</th>
+                    <th>{{ t.col_domain }}</th>
+                    <th>{{ t.col_status }}</th>
+                    <th>{{ t.col_registrar }}</th>
+                    <th>{{ t.col_created }}</th>
                     <th>
                         <a href="?order=updated{% if page > 1 %}&page={{ page }}{% endif %}">
-                            Updated {% if order == 'updated' %}&#9660;{% endif %}
+                            {{ t.col_updated }} {% if order == 'updated' %}&#9660;{% endif %}
                         </a>
                     </th>
                     <th>
                         <a href="?order=expiry{% if page > 1 %}&page={{ page }}{% endif %}">
-                            Expires {% if order == 'expiry' %}&#9660;{% endif %}
+                            {{ t.col_expires }} {% if order == 'expiry' %}&#9660;{% endif %}
                         </a>
                     </th>
                     <th>
                         <a href="?order=checked{% if page > 1 %}&page={{ page }}{% endif %}">
-                            Last Check {% if order == 'checked' %}&#9660;{% endif %}
+                            {{ t.col_last_check }} {% if order == 'checked' %}&#9660;{% endif %}
                         </a>
                     </th>
                     <th></th>
@@ -82,8 +82,8 @@
                     <td class="text-muted">{{ domain.hunter_update ? domain.hunter_update|slice(0,16) : '—' }}</td>
                     <td>
                         <form method="post" action="/domains/{{ domain.id }}/delete"
-                              onsubmit="return confirm('Delete {{ domain.domain }}?')">
-                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                              onsubmit="return confirm('{{ t.confirm_delete|replace({'{domain}': domain.domain})|e('js') }}')">
+                            <button type="submit" class="btn btn-danger btn-sm">{{ t.btn_delete }}</button>
                         </form>
                     </td>
                 </tr>
@@ -94,7 +94,7 @@
         {% if total_pages > 1 %}
         <div class="pagination">
             {% if page > 1 %}
-                <a href="?order={{ order }}&page={{ page - 1 }}">&laquo; Prev</a>
+                <a href="?order={{ order }}&page={{ page - 1 }}">{{ t.pag_prev }}</a>
             {% endif %}
             {% for p in 1..total_pages %}
                 {% if p == page %}
@@ -104,7 +104,7 @@
                 {% endif %}
             {% endfor %}
             {% if page < total_pages %}
-                <a href="?order={{ order }}&page={{ page + 1 }}">Next &raquo;</a>
+                <a href="?order={{ order }}&page={{ page + 1 }}">{{ t.pag_next }}</a>
             {% endif %}
         </div>
         {% endif %}

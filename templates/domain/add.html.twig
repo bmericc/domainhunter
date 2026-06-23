@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="card" style="max-width:480px">
-    <h2>Add Domain</h2>
+    <h2>{{ t.heading_add }}</h2>
 
     {% if error %}
         <div class="alert alert-error">{{ error }}</div>
@@ -10,24 +10,24 @@
     {% if success %}
         <div class="alert alert-success">
             {{ success }}
-            <br><a href="/">Back to domain list</a>
+            <br><a href="/">{{ t.back_to_list }}</a>
         </div>
     {% endif %}
 
     <form method="post" action="/domains/add">
         <div class="form-group">
-            <label for="domain">Domain name</label>
+            <label for="domain">{{ t.field_domain }}</label>
             <input type="text" id="domain" name="domain"
                    placeholder="example.com"
                    autocomplete="off" spellcheck="false">
             <p class="text-muted" style="margin-top:.4rem">
-                Supports 80+ TLDs: .com .net .org .io .co .app .dev .ai .xyz .tech .store .shop
+                {{ t.tld_supports }}: .com .net .org .io .co .app .dev .ai .xyz .tech .store .shop
                 | .tr .com.tr .net.tr .org.tr .edu.tr .gov.tr .web.tr .bel.tr .k12.tr
                 | .co.uk .de .fr .nl .es .it .pl .ru .eu .ca .au .com.au .jp .cn .in …
             </p>
         </div>
-        <button type="submit" class="btn btn-primary">Add &amp; Query WHOIS</button>
-        <a href="/" class="btn btn-sm" style="background:#eceff1;margin-left:.5rem">Cancel</a>
+        <button type="submit" class="btn btn-primary">{{ t.btn_add_query }}</button>
+        <a href="/" class="btn btn-sm" style="background:#eceff1;margin-left:.5rem">{{ t.btn_cancel }}</a>
     </form>
 </div>
 {% endblock %}
