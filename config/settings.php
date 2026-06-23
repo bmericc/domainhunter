@@ -20,7 +20,11 @@ return [
         'user'    => $_ENV['DB_USER']   ?? 'root',
         'pass'    => $_ENV['DB_PASS']   ?? '',
         'charset' => 'utf8mb4',
-        'path'    => $_ENV['DB_PATH'] ?? ($dataDir . DIRECTORY_SEPARATOR . 'domainhunter.sqlite'),
+        'path'    => isset($_ENV['DB_PATH'])
+            ? (($_ENV['DB_PATH'][0] === '/' || (strlen($_ENV['DB_PATH']) > 1 && $_ENV['DB_PATH'][1] === ':'))
+                ? $_ENV['DB_PATH']
+                : $dataDir . DIRECTORY_SEPARATOR . $_ENV['DB_PATH'])
+            : ($dataDir . DIRECTORY_SEPARATOR . 'domainhunter.sqlite'),
     ],
     'app' => [
         'lang'        => strtolower($_ENV['APP_LANG'] ?? 'en'),
