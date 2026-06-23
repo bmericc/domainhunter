@@ -58,3 +58,18 @@ jobs:
           files: builds/dh.phar
           draft: false
           prerelease: false
+
+      - name: Upload to SourceForge
+        env:
+          SF_SSH_KEY: ${{ secrets.SF_SSH_KEY }}
+        run: |
+          VERSION="${{ steps.version.outputs.tag }}"
+          mkdir -p ~/.ssh
+          echo "$SF_SSH_KEY" > ~/.ssh/sf_key
+          chmod 600 ~/.ssh/sf_key
+          ssh-keyscan frs.sourceforge.net >> ~/.ssh/known_hosts 2>/dev/null
+          SF_PATH="/home/frs/project/domainhunter/${VERSION}/"
+          ssh -i ~/.ssh/sf_key bmericc,domainhunter@frs.sourceforge.net "mkdir -p ${SF_PATH}"
+          rsync -avP -e "ssh -i ~/.ssh/sf_key" \
+            builds/dh.phar \
+            bmericc,domainhunter@frs.sourceforge.net:${SF_PATH}dh.phar
