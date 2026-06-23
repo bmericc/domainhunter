@@ -161,7 +161,10 @@ class WhoisService
         $raw    = $this->fetch($server['host'], $fqdn, $param);
 
         if ($raw === null) {
-            throw new \RuntimeException("Could not reach WHOIS server for .$tld.");
+            throw new \RuntimeException(
+                "Could not reach WHOIS server for .$tld ({$server['host']}:43). " .
+                "Check your internet connection or firewall (outbound port 43 must be open)."
+            );
         }
 
         if (stripos($raw, $server['free']) !== false) {
@@ -174,19 +177,28 @@ class WhoisService
 
     private function fetch(string $host, string $domain, string $param = ''): ?string
     {
-        $fp = @fsockopen($host, 43, $errno, $errstr, 10);
-        if (!$fp) {
-            return null;
+        for ($attempt = 0; $attempt < 2; $attempt++) {
+            if ($attempt > 0) {
+                sleep(2);
+            }
+            $fp = @fsockopen($host, 43, $errno, $errstr, 15);
+            if (!$fp) {
+                continue;
+            }
+
+            fputs($fp, $param . $domain . "\r\n");
+            $data = '';
+            while (!feof($fp)) {
+                $data .= fgets($fp, 4096);
+            }
+            fclose($fp);
+
+            if ($data !== '') {
+                return $data;
+            }
         }
 
-        fputs($fp, $param . $domain . "\r\n");
-        $data = '';
-        while (!feof($fp)) {
-            $data .= fgets($fp, 4096);
-        }
-        fclose($fp);
-
-        return $data !== '' ? $data : null;
+        return null;
     }
 
     // ── Parsers ───────────────────────────────────────────────────────────────
