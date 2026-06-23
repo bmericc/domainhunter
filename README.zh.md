@@ -149,8 +149,12 @@ php -d phar.readonly=0 bin/build.php
 `.com` `.net` `.org` `.info` `.biz` `.name` `.pro` `.mobi`
 `.tel` `.travel` `.jobs` `.museum` 等
 
+## 关于项目
+
+Domain Hunter 最初由土耳其软件开发者 **[Bahri Meriç CANLI](https://domainhunter.tr)** 于 2006 年创建。该项目最初以 *domainhunter.org.tr* 的名称发布，得到了 LKD（Linux 用户协会）及其名誉主席 Mustafa Akgül 的支持。本仓库是对原项目的全面现代化重写，基于 PHP 8+，具备现代 Web 界面、CLI、SMTP 支持和 8 语言本地化。
+
 ## 许可证
 
 GNU General Public License v3.0 — 参见 [COPYING](COPYING)
 
-原始项目：Copyright (C) 2011 Bahri Meriç CANLI
+Copyright (C) 2011 Bahri Meriç CANLI

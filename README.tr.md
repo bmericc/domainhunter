@@ -149,8 +149,12 @@ php -d phar.readonly=0 bin/build.php
 `.com` `.net` `.org` `.info` `.biz` `.name` `.pro` `.mobi`
 `.tel` `.travel` `.jobs` `.museum` ve daha fazlası
 
+## Hakkında
+
+Domain Hunter, Türkiye'den yazılım geliştirici **[Bahri Meriç CANLI](https://domainhunter.tr)** tarafından 2006 yılında başlatılmış açık kaynaklı bir projedir. Proje, LKD (Linux Kullanıcıları Derneği) ve onursal başkanı Mustafa Akgül'ün desteğiyle *domainhunter.org.tr* adıyla yayımlanmıştır. Bu depo, o çalışmanın PHP 8+, modern web arayüzü, CLI, SMTP desteği ve 8 dil yerelleştirmesiyle tam modernizasyonudur.
+
 ## Lisans
 
 GNU General Public License v3.0 — bkz. [COPYING](COPYING)
 
-Orijinal proje: Copyright (C) 2011 Bahri Meriç CANLΙ
+Copyright (C) 2011 Bahri Meriç CANLI
