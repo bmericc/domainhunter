@@ -64,12 +64,14 @@ jobs:
           SF_SSH_KEY: ${{ secrets.SF_SSH_KEY }}
         run: |
           VERSION="${{ steps.version.outputs.tag }}"
+          VERSION_BARE="${VERSION#v}"
+          SF_DIR="DomainHunter v${VERSION_BARE}"
+          SF_PATH="/home/frs/project/domainhunter/${SF_DIR}"
           mkdir -p ~/.ssh
           echo "$SF_SSH_KEY" > ~/.ssh/sf_key
           chmod 600 ~/.ssh/sf_key
           ssh-keyscan frs.sourceforge.net >> ~/.ssh/known_hosts 2>/dev/null
-          SF_PATH="/home/frs/project/domainhunter/${VERSION}/"
-          ssh -i ~/.ssh/sf_key bmericc,domainhunter@frs.sourceforge.net "mkdir -p ${SF_PATH}"
-          rsync -avP -e "ssh -i ~/.ssh/sf_key" \
-            builds/dh.phar \
-            bmericc,domainhunter@frs.sourceforge.net:${SF_PATH}dh.phar
+          sftp -i ~/.ssh/sf_key bmericc,domainhunter@frs.sourceforge.net <<SFTP
+mkdir "${SF_PATH}"
+put builds/dh.phar "${SF_PATH}/dh.phar"
+SFTP
