@@ -8,7 +8,9 @@ use App\Command\DomainDeleteCommand;
 use App\Command\DomainListCommand;
 use App\Command\DomainRefreshCommand;
 use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Command\DumpCompletionCommand;
+use Symfony\Component\Console\Command\CompleteCommand;
+use Symfony\Component\Console\Command\HelpCommand;
+use Symfony\Component\Console\Command\ListCommand;
 
 require __DIR__ . '/bootstrap.php';
 
@@ -29,10 +31,7 @@ $app = new class('Domain Hunter', '2.0.0') extends Application {
 
     protected function getDefaultCommands(): array
     {
-        return array_values(array_filter(
-            parent::getDefaultCommands(),
-            fn($cmd) => !$cmd instanceof DumpCompletionCommand,
-        ));
+        return [new HelpCommand(), new ListCommand(), new CompleteCommand()];
     }
 };
 $app->add(new DomainAddCommand($service));
