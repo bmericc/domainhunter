@@ -83,9 +83,9 @@ jobs:
           echo "$SF_SSH_KEY" > ~/.ssh/sf_key
           chmod 600 ~/.ssh/sf_key
           ssh-keyscan frs.sourceforge.net >> ~/.ssh/known_hosts 2>/dev/null
-          sftp -i ~/.ssh/sf_key bmericc,domainhunter@frs.sourceforge.net <<SFTP
-mkdir "${SF_PATH}"
-put builds/dh.phar "${SF_PATH}/dh.phar"
-put builds/${NAME}.zip "${SF_PATH}/${NAME}.zip"
-put builds/${NAME}.tar.gz "${SF_PATH}/${NAME}.tar.gz"
-SFTP
+          {
+            echo "mkdir \"${SF_PATH}\""
+            echo "put builds/dh.phar \"${SF_PATH}/dh.phar\""
+            echo "put builds/${NAME}.zip \"${SF_PATH}/${NAME}.zip\""
+            echo "put builds/${NAME}.tar.gz \"${SF_PATH}/${NAME}.tar.gz\""
+          } | sftp -i ~/.ssh/sf_key bmericc,domainhunter@frs.sourceforge.net
