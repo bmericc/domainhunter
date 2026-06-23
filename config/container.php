@@ -63,7 +63,29 @@ function buildPdo(array $db): PDO
         if (!is_dir($dir)) {
             mkdir($dir, 0755, true);
         }
-        return new PDO('sqlite:' . $db['path'], null, null, $options);
+        $pdo = new PDO('sqlite:' . $db['path'], null, null, $options);
+        $pdo->exec('
+            CREATE TABLE IF NOT EXISTS monitors (
+                id            INTEGER PRIMARY KEY AUTOINCREMENT,
+                domain        TEXT    NOT NULL UNIQUE,
+                register      TEXT    DEFAULT \'\',
+                whois_serv    TEXT    DEFAULT \'\',
+                ref_url       TEXT    DEFAULT \'\',
+                nameserv1     TEXT    DEFAULT \'\',
+                nameserv2     TEXT    DEFAULT \'\',
+                nameserv3     TEXT    DEFAULT \'\',
+                nameserv4     TEXT    DEFAULT \'\',
+                nameserv5     TEXT    DEFAULT \'\',
+                status1       TEXT    DEFAULT \'\',
+                status2       TEXT    DEFAULT \'\',
+                status3       TEXT    DEFAULT \'\',
+                create_date   TEXT    DEFAULT \'\',
+                update_date   TEXT    DEFAULT \'\',
+                expirate_date TEXT    DEFAULT \'\',
+                hunter_update TEXT    DEFAULT \'\'
+            )
+        ');
+        return $pdo;
     }
 
     $dsn = "mysql:host={$db['host']};dbname={$db['name']};charset={$db['charset']}";
