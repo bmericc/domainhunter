@@ -8,6 +8,9 @@ use App\Command\DomainDeleteCommand;
 use App\Command\DomainListCommand;
 use App\Command\DomainRefreshCommand;
 use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Command\CompleteCommand;
+use Symfony\Component\Console\Command\HelpCommand;
+use Symfony\Component\Console\Command\ListCommand;
 
 require __DIR__ . '/bootstrap.php';
 
@@ -15,15 +18,22 @@ $app = new class('Domain Hunter', '2.0.0') extends Application {
     public function getHelp(): string
     {
         return implode("\n", [
-            '/|\ /|\ /|\   ______ _   _ ',
-            ' |   |   |    |  _  \ | | |',
-            ' |   |   |    | | | | |_| |',
-            '  \  |  /     | | | |  _  |',
-            '   \_|_/      | |/ /| | | |',
-            '    -+-       |___/ \_| |_/',
+            '  #      ##      #       _                _      ',
+            ' ###    ####    ###   __| |___ _ __  __ _(_)_ _  ',
+            ' ###     ##     ###  / _` / _ \ \'  \/ _` | | \' \ ',
+            ' ##      ##      ##  \__,_\___/_|_|_\__,_|_|_||_|',
+            ' ##      ##      ##   _            _           ',
+            '  ##     ##     ##   | |_ _  _ _ _| |_ ___ _ _ ',
+            '   ##    ##    ##    | \' \ || | \' \  _/ -_) \'_|',
+            '    ############     |_||_\_,_|_||_\__\___|_|  ',
             '',
-            '  Domain Hunter  ·  2006-2026',
+            '  Domain Hunter (c) 2006 - 2026 Bahri Meriç Canlı',
         ]);
+    }
+
+    protected function getDefaultCommands(): array
+    {
+        return [new HelpCommand(), new ListCommand(), new CompleteCommand()];
     }
 };
 $app->add(new DomainAddCommand($service));
