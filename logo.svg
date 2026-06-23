@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 165 76" width="165" height="76" role="img" aria-label="Domain Hunter">
+  <title>Domain Hunter</title>
+
+  <!--
+    Liberation Mono Bold font-size=64 → cap height ≈ 43px
+    Baseline y=62, cap top ≈ y=19
+    Trident spans y=12 (center tip) … y=68 (crossbar feet) to visually match
+  -->
+
+  <g fill="none" stroke="#111" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+
+    <!-- Left prong -->
+    <line x1="18" y1="25" x2="18" y2="46"/>
+    <!-- Center prong -->
+    <line x1="33" y1="12" x2="33" y2="60"/>
+    <!-- Right prong -->
+    <line x1="48" y1="25" x2="48" y2="46"/>
+
+    <!-- Left tip -->
+    <polyline points="14,32 18,25 22,32"/>
+    <!-- Center tip -->
+    <polyline points="29,19 33,12 37,19"/>
+    <!-- Right tip -->
+    <polyline points="44,32 48,25 52,32"/>
+
+    <!-- Curved base -->
+    <path d="M18,46 Q18,58 33,58 Q48,58 48,46"/>
+
+    <!-- Handle -->
+    <line x1="33" y1="57" x2="33" y2="63"/>
+
+    <!-- T-crossbar -->
+    <line x1="24" y1="63" x2="42" y2="63"/>
+    <line x1="24" y1="59" x2="24" y2="68"/>
+    <line x1="42" y1="59" x2="42" y2="68"/>
+
+  </g>
+
+  <!-- DH — font-size=64, baseline y=62 -->
+  <text x="57" y="62"
+        font-family="'Liberation Mono','Courier New',Courier,monospace"
+        font-size="64"
+        font-weight="700"
+        fill="#111"
+        letter-spacing="2">DH</text>
+
+</svg>
