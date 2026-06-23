@@ -19,8 +19,17 @@ return [
     },
 
     Twig::class => function (ContainerInterface $c) {
-        $s = $c->get('settings')['twig'];
-        return Twig::create($s['template_path'], ['cache' => $s['cache_path']]);
+        $s    = $c->get('settings')['twig'];
+        $twig = Twig::create($s['template_path'], ['cache' => $s['cache_path']]);
+
+        $locale   = $c->get('settings')['app']['lang'];
+        $langFile = dirname(__DIR__) . "/lang/{$locale}.php";
+        if (!file_exists($langFile)) {
+            $langFile = dirname(__DIR__) . '/lang/en.php';
+        }
+        $twig->getEnvironment()->addGlobal('t', require $langFile);
+
+        return $twig;
     },
 
     DomainRepository::class => fn(ContainerInterface $c) => new DomainRepository($c->get(PDO::class)),

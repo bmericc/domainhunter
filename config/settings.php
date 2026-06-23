@@ -23,6 +23,7 @@ return [
         ),
     ],
     'app' => [
+        'lang'        => strtolower($_ENV['APP_LANG'] ?? 'en'),
         'alert_email' => $_ENV['ALERT_EMAIL'] ?? '',
         'mailer_dsn'  => $_ENV['MAILER_DSN']  ?? '',
         'mailer_from' => $_ENV['MAILER_FROM'] ?? '',
