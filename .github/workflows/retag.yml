@@ -49,13 +49,24 @@ jobs:
           echo "$BODY" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
+      - name: Build source archives
+        run: |
+          VERSION="${{ github.event.inputs.version }}"
+          VERSION_BARE="${VERSION#v}"
+          NAME="domainhunter-${VERSION_BARE}"
+          git archive --format=zip --prefix="${NAME}/" HEAD -o "builds/${NAME}.zip"
+          git archive --format=tar.gz --prefix="${NAME}/" HEAD -o "builds/${NAME}.tar.gz"
+
       - name: Create Release on clean commit
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.event.inputs.version }}
           name: "Domain Hunter ${{ github.event.inputs.version }}"
           body: ${{ steps.changelog.outputs.body }}
-          files: builds/dh.phar
+          files: |
+            builds/dh.phar
+            builds/domainhunter-*.zip
+            builds/domainhunter-*.tar.gz
           draft: false
           prerelease: false
           target_commitish: master
