@@ -1,33 +1,31 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 84" width="150" height="84" role="img" aria-label="Domain Hunter">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 70" width="150" height="70" role="img" aria-label="Domain Hunter">
   <title>Domain Hunter</title>
 
   <g fill="none" stroke="#111" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
 
-    <!-- CENTER SHAFT: tek kesintisiz çizgi — uçtan crossbar'a kadar -->
-    <line x1="33" y1="10" x2="33" y2="71"/>
-    <!-- center tip -->
-    <polyline points="29,16  33,10  37,16"/>
+    <!-- CENTER SHAFT: y=17(tip) → y=57(crossbar) -->
+    <line x1="33" y1="17" x2="33" y2="57"/>
+    <polyline points="29,21  33,17  37,21"/>
 
-    <!-- LEFT PRONG -->
-    <line x1="17" y1="22" x2="17" y2="46"/>
-    <!-- left tip -->
-    <polyline points="13,28  17,22  21,28"/>
+    <!-- LEFT PRONG: y=25 → y=41 -->
+    <line x1="17" y1="25" x2="17" y2="41"/>
+    <polyline points="13,29  17,25  21,29"/>
 
-    <!-- RIGHT PRONG -->
-    <line x1="49" y1="22" x2="49" y2="46"/>
-    <!-- right tip -->
-    <polyline points="45,28  49,22  53,28"/>
+    <!-- RIGHT PRONG: y=25 → y=41 -->
+    <line x1="49" y1="25" x2="49" y2="41"/>
+    <polyline points="45,29  49,25  53,29"/>
 
     <!-- CURVED BASE -->
-    <path d="M 17,46 C 17,59 33,59 33,59 C 33,59 49,59 49,46"/>
+    <path d="M 17,41 C 17,50 33,50 33,50 C 33,50 49,50 49,41"/>
 
-    <!-- T-CROSSBAR (y=71, arc'tan 12px aşağıda — handle görünür) -->
-    <line x1="24" y1="71" x2="42" y2="71"/>
-    <line x1="24" y1="67" x2="24" y2="75"/>
-    <line x1="42" y1="67" x2="42" y2="75"/>
+    <!-- T-CROSSBAR at y=57, feet y=53..61 -->
+    <line x1="24" y1="57" x2="42" y2="57"/>
+    <line x1="24" y1="53" x2="24" y2="61"/>
+    <line x1="42" y1="53" x2="42" y2="61"/>
 
   </g>
 
+  <!-- DH: baseline y=60, cap top ≈ y=17 — çatalla aynı yükseklik -->
   <text x="60" y="60"
         font-family="'Liberation Mono','Courier New',Courier,monospace"
         font-size="64"
