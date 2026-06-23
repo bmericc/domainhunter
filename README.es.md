@@ -151,7 +151,7 @@ php -d phar.readonly=0 bin/build.php
 
 ## Acerca del proyecto
 
-Domain Hunter fue creado originalmente en 2006 por **[Bahri Meriç CANLI](https://domainhunter.tr)**, un desarrollador de software con sede en Turquía. El proyecto fue publicado inicialmente como *domainhunter.org.tr* con el apoyo de LKD (Asociación de Usuarios de Linux) y su presidente honorario Mustafa Akgül. Este repositorio es una modernización completa de ese trabajo, reescrito para PHP 8+ con interfaz web moderna, CLI, soporte SMTP y localización en 8 idiomas.
+Domain Hunter es un proyecto de código abierto publicado por **[Bahri Meriç CANLI](https://domainhunter.tr)**, desarrollador de software de Turquía. Lanzado en 2006 como *domainhunter.org.tr* con el apoyo de LKD (Asociación de Usuarios de Linux) y su presidente honorario Mustafa Akgül, el proyecto ha sido completamente modernizado y reescrito para PHP 8+ con interfaz web moderna, CLI, soporte SMTP y localización en 8 idiomas.
 
 ## Licencia
 
