@@ -33,8 +33,12 @@ class DomainAddCommand extends Command
         $io->text("Adding <info>$domain</info> …");
 
         try {
-            $stored = $this->service->add($domain);
-            $io->success("Domain added and queried: $stored");
+            ['domain' => $stored, 'registered' => $registered] = $this->service->add($domain);
+            if ($registered) {
+                $io->success("Domain added: $stored");
+            } else {
+                $io->warning("Domain added: $stored (not registered — no WHOIS data available)");
+            }
         } catch (\InvalidArgumentException $e) {
             $io->error($e->getMessage());
             return Command::FAILURE;
