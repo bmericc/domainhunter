@@ -1,33 +1,38 @@
 {% extends 'layout.html.twig' %}
 
 {% block content %}
-<div class="card" style="max-width:480px">
-    <h2>{{ t.heading_add }}</h2>
+<div class="card" style="max-width:520px">
+    <div class="card-head">
+        <h2>{{ t.heading_add }}</h2>
+        <a href="/" class="btn btn-secondary btn-sm">← {{ t.nav_domains }}</a>
+    </div>
+    <div class="card-body">
+        {% if error %}
+            <div class="alert alert-error">⚠ {{ error }}</div>
+        {% endif %}
+        {% if success %}
+            <div class="alert alert-success">
+                ✓ {{ success }}<br>
+                <a href="/" style="color:inherit;font-weight:600;font-size:.82rem">{{ t.back_to_list }} →</a>
+            </div>
+        {% endif %}
 
-    {% if error %}
-        <div class="alert alert-error">{{ error }}</div>
-    {% endif %}
-    {% if success %}
-        <div class="alert alert-success">
-            {{ success }}
-            <br><a href="/">{{ t.back_to_list }}</a>
-        </div>
-    {% endif %}
-
-    <form method="post" action="/domains/add">
-        <div class="form-group">
-            <label for="domain">{{ t.field_domain }}</label>
-            <input type="text" id="domain" name="domain"
-                   placeholder="example.com"
-                   autocomplete="off" spellcheck="false">
-            <p class="text-muted" style="margin-top:.4rem">
-                {{ t.tld_supports }}: .com .net .org .io .co .app .dev .ai .xyz .tech .store .shop
-                | .tr .com.tr .net.tr .org.tr .edu.tr .gov.tr .web.tr .bel.tr .k12.tr
-                | .co.uk .de .fr .nl .es .it .pl .ru .eu .ca .au .com.au .jp .cn .in …
-            </p>
-        </div>
-        <button type="submit" class="btn btn-primary">{{ t.btn_add_query }}</button>
-        <a href="/" class="btn btn-sm" style="background:#eceff1;margin-left:.5rem">{{ t.btn_cancel }}</a>
-    </form>
+        <form method="post" action="/domains/add">
+            <div class="form-group">
+                <label for="domain">{{ t.field_domain }}</label>
+                <input type="text" id="domain" name="domain"
+                       placeholder="example.com"
+                       autocomplete="off" spellcheck="false">
+                <p class="text-muted" style="margin-top:.5rem;font-size:.78rem;line-height:1.5">
+                    .com .net .org .io .co .app .dev .ai .info .biz .xyz .tech .store .shop .online .site .media .digital …<br>
+                    .tr .com.tr .net.tr .org.tr .edu.tr .gov.tr .web.tr .bel.tr .k12.tr<br>
+                    .co.uk .de .fr .nl .es .it .pl .ru .eu .ca .au .com.au .jp .cn .in …
+                </p>
+            </div>
+            <div style="display:flex;gap:.75rem;align-items:center">
+                <button type="submit" class="btn btn-primary">{{ t.btn_add_query }}</button>
+            </div>
+        </form>
+    </div>
 </div>
 {% endblock %}
