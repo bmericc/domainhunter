@@ -21,17 +21,19 @@ class DomainListAction
         $params  = $request->getQueryParams();
         $page    = max(1, (int) ($params['page'] ?? 1));
         $order   = $params['order'] ?? 'checked';
+        $search  = trim($params['search'] ?? '');
         $perPage = 20;
 
         $orderMap = [
+            'domain'  => 'domain ASC',
             'expiry'  => 'expirate_date ASC',
             'updated' => 'update_date DESC',
             'checked' => 'hunter_update DESC',
         ];
         $orderSql = $orderMap[$order] ?? $orderMap['checked'];
 
-        $total      = $this->domains->count();
-        $items      = $this->domains->paginate($page, $perPage, $orderSql);
+        $total      = $this->domains->count($search !== '' ? $search : null);
+        $items      = $this->domains->paginate($page, $perPage, $orderSql, $search !== '' ? $search : null);
         $totalPages = (int) ceil($total / $perPage);
 
         return $this->twig->render($response, 'domain/list.html.twig', [
@@ -41,6 +43,7 @@ class DomainListAction
             'total_pages' => $totalPages,
             'per_page'    => $perPage,
             'order'       => $order,
+            'search'      => $search,
         ]);
     }
 }

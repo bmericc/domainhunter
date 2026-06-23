@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Repository\DomainHistoryRepository;
 use App\Repository\DomainRepository;
 use App\Service\DomainService;
 use App\Service\WhoisService;
@@ -32,7 +33,8 @@ return [
         return $twig;
     },
 
-    DomainRepository::class => fn(ContainerInterface $c) => new DomainRepository($c->get(PDO::class)),
+    DomainRepository::class        => fn(ContainerInterface $c) => new DomainRepository($c->get(PDO::class)),
+    DomainHistoryRepository::class => fn(ContainerInterface $c) => new DomainHistoryRepository($c->get(PDO::class)),
 
     WhoisService::class => fn() => new WhoisService(),
 
@@ -44,6 +46,7 @@ return [
         return new DomainService(
             $c->get(WhoisService::class),
             $c->get(DomainRepository::class),
+            $c->get(DomainHistoryRepository::class),
             $app['alert_email'],
             $mailer,
             $app['mailer_from'],
@@ -83,7 +86,15 @@ function buildPdo(array $db): PDO
                 update_date   TEXT    DEFAULT \'\',
                 expirate_date TEXT    DEFAULT \'\',
                 hunter_update TEXT    DEFAULT \'\'
-            )
+            );
+            CREATE TABLE IF NOT EXISTS monitor_history (
+                id         INTEGER PRIMARY KEY AUTOINCREMENT,
+                domain_id  INTEGER NOT NULL,
+                field      TEXT    NOT NULL,
+                old_value  TEXT    DEFAULT \'\',
+                new_value  TEXT    DEFAULT \'\',
+                changed_at TEXT    NOT NULL
+            );
         ');
         return $pdo;
     }

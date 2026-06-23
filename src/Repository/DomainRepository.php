@@ -8,15 +8,28 @@ class DomainRepository
 {
     public function __construct(private readonly \PDO $pdo) {}
 
-    public function count(): int
+    public function count(?string $search = null): int
     {
+        if ($search !== null && $search !== '') {
+            $stmt = $this->pdo->prepare('SELECT COUNT(id) FROM monitors WHERE domain LIKE :q');
+            $stmt->execute([':q' => '%' . $search . '%']);
+            return (int) $stmt->fetchColumn();
+        }
         return (int) $this->pdo->query('SELECT COUNT(id) FROM monitors')->fetchColumn();
     }
 
-    public function paginate(int $page, int $perPage, string $orderSql): array
+    public function paginate(int $page, int $perPage, string $orderSql, ?string $search = null): array
     {
         $offset = ($page - 1) * $perPage;
-        $stmt   = $this->pdo->prepare("SELECT * FROM monitors ORDER BY $orderSql LIMIT :limit OFFSET :offset");
+        if ($search !== null && $search !== '') {
+            $stmt = $this->pdo->prepare("SELECT * FROM monitors WHERE domain LIKE :q ORDER BY $orderSql LIMIT :limit OFFSET :offset");
+            $stmt->bindValue(':q',      '%' . $search . '%');
+            $stmt->bindValue(':limit',  $perPage, \PDO::PARAM_INT);
+            $stmt->bindValue(':offset', $offset,  \PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll();
+        }
+        $stmt = $this->pdo->prepare("SELECT * FROM monitors ORDER BY $orderSql LIMIT :limit OFFSET :offset");
         $stmt->bindValue(':limit',  $perPage, \PDO::PARAM_INT);
         $stmt->bindValue(':offset', $offset,  \PDO::PARAM_INT);
         $stmt->execute();
@@ -26,6 +39,13 @@ class DomainRepository
     public function all(string $orderSql = 'hunter_update DESC'): array
     {
         return $this->pdo->query("SELECT * FROM monitors ORDER BY $orderSql")->fetchAll();
+    }
+
+    public function findById(int $id): ?array
+    {
+        $stmt = $this->pdo->prepare('SELECT * FROM monitors WHERE id = :id');
+        $stmt->execute([':id' => $id]);
+        return $stmt->fetch() ?: null;
     }
 
     public function findByDomain(string $domain): ?array

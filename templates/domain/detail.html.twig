@@ -1,0 +1,111 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+<div style="display:flex;flex-direction:column;gap:1.25rem">
+
+    {# ── Header card ───────────────────────────────────────────── #}
+    <div class="card">
+        <div class="card-head">
+            <div style="display:flex;align-items:center;gap:1rem">
+                <h2>{{ domain.domain }}</h2>
+                {% if domain.status1 %}
+                    {% set s = domain.status1|lower %}
+                    {% if 'ok' in s or 'active' in s %}
+                        <span class="badge badge-ok">{{ domain.status1 }}</span>
+                    {% elseif 'hold' in s or 'delete' in s or 'suspend' in s %}
+                        <span class="badge badge-warn">{{ domain.status1 }}</span>
+                    {% else %}
+                        <span class="badge badge-blue">{{ domain.status1 }}</span>
+                    {% endif %}
+                {% endif %}
+            </div>
+            <a href="/" class="btn btn-secondary btn-sm">← {{ t.back_to_list }}</a>
+        </div>
+        <div class="card-body">
+            <div class="detail-grid">
+                <div class="detail-item">
+                    <span class="detail-label">{{ t.col_registrar }}</span>
+                    <span class="detail-value">{{ domain.register ?: '—' }}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">{{ t.col_created }}</span>
+                    <span class="detail-value">{{ domain.create_date ?: '—' }}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">{{ t.col_updated }}</span>
+                    <span class="detail-value">{{ domain.update_date ?: '—' }}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">{{ t.col_expires }}</span>
+                    <span class="detail-value">
+                        {% if domain.expirate_date and domain.expirate_date != '0000-00-00' %}
+                            {% set days_left = ((domain.expirate_date|date('U') - 'now'|date('U')) / 86400)|round %}
+                            {% if days_left < 30 %}
+                                <span class="expiry-urgent">{{ domain.expirate_date }}</span>
+                            {% elseif days_left < 90 %}
+                                <span class="expiry-warning">{{ domain.expirate_date }}</span>
+                            {% else %}
+                                {{ domain.expirate_date }}
+                            {% endif %}
+                        {% else %}
+                            —
+                        {% endif %}
+                    </span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">{{ t.col_last_check }}</span>
+                    <span class="detail-value">{{ domain.hunter_update ?: '—' }}</span>
+                </div>
+                {% set ns_list = [domain.nameserv1, domain.nameserv2, domain.nameserv3, domain.nameserv4, domain.nameserv5]|filter(v => v is not empty) %}
+                {% if ns_list is not empty %}
+                <div class="detail-item detail-item-full">
+                    <span class="detail-label">{{ t.label_nameservers }}</span>
+                    <span class="detail-value">{{ ns_list|join(', ') }}</span>
+                </div>
+                {% endif %}
+                {% set st_list = [domain.status1, domain.status2, domain.status3]|filter(v => v is not empty) %}
+                {% if st_list|length > 1 %}
+                <div class="detail-item detail-item-full">
+                    <span class="detail-label">{{ t.label_status }}</span>
+                    <span class="detail-value">{{ st_list|join(' · ') }}</span>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    {# ── History card ──────────────────────────────────────────── #}
+    <div class="card">
+        <div class="card-head">
+            <h2>{{ t.detail_history }}<span class="count-badge">{{ history|length }}</span></h2>
+        </div>
+        {% if history is empty %}
+            <div class="card-body">
+                <p class="text-muted">{{ t.no_history }}</p>
+            </div>
+        {% else %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>{{ t.col_changed_at }}</th>
+                        <th>{{ t.col_field }}</th>
+                        <th>{{ t.col_old_value }}</th>
+                        <th>{{ t.col_new_value }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for h in history %}
+                    <tr>
+                        <td class="text-muted" style="white-space:nowrap">{{ h.changed_at }}</td>
+                        <td><span class="badge badge-blue">{{ h.field }}</span></td>
+                        <td class="history-old">{{ h.old_value ?: '—' }}</td>
+                        <td class="history-new">{{ h.new_value ?: '—' }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock %}
