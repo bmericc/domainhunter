@@ -11,7 +11,21 @@ use Symfony\Component\Console\Application;
 
 require __DIR__ . '/bootstrap.php';
 
-$app = new Application('Domain Hunter', '2.0.0');
+$app = new class('Domain Hunter', '2.0.0') extends Application {
+    public function getHelp(): string
+    {
+        return implode("\n", [
+            '/|\ /|\ /|\   ______ _   _ ',
+            ' |   |   |    |  _  \ | | |',
+            '  \  |  /     | | | | |_| |',
+            '   \ | /      | | | |  _  |',
+            '    \|/       | |/ /| | | |',
+            '    -+-       |___/ \_| |_/',
+            '',
+            '  Domain Hunter  ·  2006-2026',
+        ]);
+    }
+};
 $app->add(new DomainAddCommand($service));
 $app->add(new DomainListCommand($repository));
 $app->add(new DomainDeleteCommand($repository));
