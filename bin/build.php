@@ -115,7 +115,10 @@ echo "    dh domain:add example.com\n";
 echo "    dh domain:add türkiye.com.tr\n";
 echo "    dh domain:list --order=expiry\n";
 echo "    dh domain:refresh\n\n";
-echo "  .env (opsiyonel, dh yanına):\n";
+echo "  ~/.domainhunter/ (otomatik oluşturulur):\n";
+echo "    domainhunter.sqlite  ← veritabanı\n";
+echo "    .env (opsiyonel)     ← yapılandırma\n\n";
+echo "  .env örneği (~/.domainhunter/.env):\n";
 echo "    DB_DRIVER=sqlite          # veya mysql\n";
 echo "    ALERT_EMAIL=admin@foo.com\n\n";
 

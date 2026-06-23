@@ -10,11 +10,14 @@ use Symfony\Component\Mailer\Transport;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-// .env'i PHAR dışında ara: önce PHAR yanında, sonra CWD'de
 $pharFile = \Phar::running(false);
 if ($pharFile !== '') {
-    $pharDir = dirname($pharFile);
-    $envDir  = file_exists($pharDir . '/.env') ? $pharDir : (getcwd() ?: $pharDir);
+    $home    = getenv('HOME') ?: getenv('USERPROFILE') ?: '';
+    $dataDir = $home . DIRECTORY_SEPARATOR . '.domainhunter';
+    if (!is_dir($dataDir)) {
+        mkdir($dataDir, 0700, true);
+    }
+    $envDir = $dataDir;
 } else {
     $envDir = dirname(__DIR__);
 }
