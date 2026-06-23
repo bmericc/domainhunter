@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Repository\DomainHistoryRepository;
 use App\Repository\DomainRepository;
 use App\Service\DomainService;
 use App\Service\WhoisService;
@@ -29,6 +30,7 @@ require_once __DIR__ . '/../config/container.php';
 $pdo = buildPdo($settings['db']);
 
 $repository = new DomainRepository($pdo);
+$history    = new DomainHistoryRepository($pdo);
 $whois      = new WhoisService();
 
 $app    = $settings['app'];
@@ -36,4 +38,4 @@ $mailer = $app['mailer_dsn'] !== ''
     ? new Mailer(Transport::fromDsn($app['mailer_dsn']))
     : null;
 
-$service = new DomainService($whois, $repository, $app['alert_email'], $mailer, $app['mailer_from']);
+$service = new DomainService($whois, $repository, $history, $app['alert_email'], $mailer, $app['mailer_from']);
