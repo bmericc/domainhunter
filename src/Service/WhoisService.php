@@ -250,10 +250,13 @@ class WhoisService
     }
 
     /**
-     * Parser for whois.nic.tr responses.
+     * Parser for whois.trabis.gov.tr responses.
      *
-     * The Turkish NIC uses a sectioned format with "** Section:" headers,
-     * tabbed key-value pairs, and bare hostnames for name servers.
+     * Format uses "** Section:" headers. Status/frozen/transfer lines appear
+     * at column-0 after the domain name header (no ** prefix). Registrar info
+     * uses tab-indented "Key\t: Value" pairs. Name servers are bare hostnames
+     * at column-0 under "** Domain Servers:". Dates are under "** Additional
+     * Info:" with dot-padded keys ("Created on..........: YYYY-Mon-DD.").
      */
     private function parseTr(string $raw): WhoisResult
     {
@@ -263,8 +266,8 @@ class WhoisService
         foreach (explode("\n", $raw) as $line) {
             $line = rtrim($line);
 
-            // "** Domain Name:  example.com.tr"  or  "** Registrar:"
-            if (preg_match('/^\*\*\s+([^:]+?)(?::\s*(.*))?$/', $line, $m)) {
+            // "** Section Name:" or "** Section Name: value"
+            if (preg_match('/^\*\*\s+([^:]+?)(?:\s*:\s*(.*))?$/', $line, $m)) {
                 $section = strtolower(trim($m[1]));
                 $val     = trim($m[2] ?? '');
                 if ($section === 'domain name' && $val !== '') {
@@ -273,34 +276,41 @@ class WhoisService
                 continue;
             }
 
-            // Tabbed key : value lines (e.g. "	Organization Name : Foo")
-            if (preg_match('/^\s+([^:]+?)\s*:\s*(.+)/', $line, $m)) {
-                $key = strtolower(trim($m[1]));
-                $val = trim($m[2]);
-
-                match (true) {
-                    $section === 'registrar' && $key === 'organization name'
-                        => $result->registrar ??= $val,
-                    str_starts_with($key, 'created on')
-                        => $result->creationDate ??= $this->parseDate($val),
-                    str_starts_with($key, 'expires on')
-                        => $result->expirationDate ??= $this->parseDate($val),
-                    str_starts_with($key, 'updated on') || str_starts_with($key, 'modified')
-                        => $result->updatedDate ??= $this->parseDate($val),
-                    default => null,
-                };
+            if ($line === '') {
                 continue;
             }
 
-            // Bare hostname lines under "** Name Servers:" section
-            if ($section === 'name servers' && preg_match('/^\s+([\w][\w.-]+\.[a-z]{2,})\s*$/i', $line, $m)) {
+            // Bare hostname under "** Domain Servers:" (no indent required)
+            if ($section === 'domain servers' && preg_match('/^\s*([\w][\w.-]+\.[a-z]{2,})\s*$/i', $line, $m)) {
                 $result->nameServers[] = strtolower(trim($m[1]));
                 continue;
             }
 
-            // Status line (e.g. "Active")
-            if ($section === 'domain status' && preg_match('/^\s*(Active|Hold|Suspended|Pending|Locked)\s*$/i', $line, $m)) {
-                $result->statuses[] = trim($m[1]);
+            // "Key.....: Value" — handles both column-0 and indented lines,
+            // and dot-padded keys like "Created on..............: date"
+            if (preg_match('/^\s*([A-Za-z][^:]*?)\.*\s*:\s*(.+)/', $line, $m)) {
+                $key = strtolower(trim($m[1]));
+                $val = rtrim(trim($m[2]), '.');
+
+                match (true) {
+                    $key === 'domain status' && $val !== '-'
+                        => $result->statuses[] = $val,
+
+                    $section === 'registrar' && $key === 'organization name'
+                        => $result->registrar ??= $val,
+
+                    $section === 'additional info' && str_starts_with($key, 'created on')
+                        => $result->creationDate ??= $this->parseDate($val),
+
+                    $section === 'additional info' && str_starts_with($key, 'expires on')
+                        => $result->expirationDate ??= $this->parseDate($val),
+
+                    $section === 'additional info' && (
+                        str_starts_with($key, 'updated on') || str_starts_with($key, 'modified')
+                    ) => $result->updatedDate ??= $this->parseDate($val),
+
+                    default => null,
+                };
             }
         }
 
