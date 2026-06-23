@@ -356,8 +356,12 @@ class WhoisService
     /**
      * Parser for whois.trabis.gov.tr responses.
      *
-     * The Turkish NIC uses a sectioned format with "** Section:" headers,
-     * tabbed key-value pairs, and bare hostnames for name servers.
+     * Format: "** Section:" headers set the active section.
+     * Status lines appear at col-0 right after the domain name header.
+     * Registrar info uses tab-indented "Key\t: Value" pairs.
+     * Name servers are bare hostnames at col-0 under "** Domain Servers:".
+     * Dates are dot-padded under "** Additional Info:" e.g. "Created on..........: YYYY-Mon-DD."
+     * The "** Whois Server:" section contains server metadata — skip it.
      */
     private function parseTr(string $raw): WhoisResult
     {
@@ -367,8 +371,8 @@ class WhoisService
         foreach (explode("\n", $raw) as $line) {
             $line = rtrim($line);
 
-            // "** Domain Name:  example.com.tr"  or  "** Registrar:"
-            if (preg_match('/^\*\*\s+([^:]+?)(?::\s*(.*))?$/', $line, $m)) {
+            // "** Section Name: value" or "** Section Name:"
+            if (preg_match('/^\*\*\s+([^:]+?)(?:\s*:\s*(.*))?$/', $line, $m)) {
                 $section = strtolower(trim($m[1]));
                 $val     = trim($m[2] ?? '');
                 if ($section === 'domain name' && $val !== '') {
@@ -377,34 +381,40 @@ class WhoisService
                 continue;
             }
 
-            // Tabbed key : value lines (e.g. "	Organization Name : Foo")
-            if (preg_match('/^\s+([^:]+?)\s*:\s*(.+)/', $line, $m)) {
-                $key = strtolower(trim($m[1]));
-                $val = trim($m[2]);
-
-                match (true) {
-                    $section === 'registrar' && $key === 'organization name'
-                        => $result->registrar ??= $val,
-                    str_starts_with($key, 'created on')
-                        => $result->creationDate ??= $this->parseDate($val),
-                    str_starts_with($key, 'expires on')
-                        => $result->expirationDate ??= $this->parseDate($val),
-                    str_starts_with($key, 'updated on') || str_starts_with($key, 'modified')
-                        => $result->updatedDate ??= $this->parseDate($val),
-                    default => null,
-                };
+            if ($line === '' || $section === 'whois server') {
                 continue;
             }
 
-            // Bare hostname lines under "** Name Servers:" section
-            if ($section === 'name servers' && preg_match('/^\s+([\w][\w.-]+\.[a-z]{2,})\s*$/i', $line, $m)) {
+            // Bare hostname under "** Domain Servers:" (col-0, no indent)
+            if ($section === 'domain servers' && preg_match('/^\s*([\w][\w.-]+\.[a-z]{2,})\s*$/i', $line, $m)) {
                 $result->nameServers[] = strtolower(trim($m[1]));
                 continue;
             }
 
-            // Status line (e.g. "Active")
-            if ($section === 'domain status' && preg_match('/^\s*(Active|Hold|Suspended|Pending|Locked)\s*$/i', $line, $m)) {
-                $result->statuses[] = trim($m[1]);
+            // Key.....: Value — handles col-0 AND tab-indented, dot-padded keys
+            if (preg_match('/^\s*([A-Za-z][^:]*?)\.*\s*:\s*(.+)/', $line, $m)) {
+                $key = strtolower(trim($m[1]));
+                $val = rtrim(trim($m[2]), '.');
+
+                match (true) {
+                    $key === 'domain status' && $val !== '-'
+                        => $result->statuses[] = $val,
+
+                    $section === 'registrar' && $key === 'organization name'
+                        => $result->registrar ??= $val,
+
+                    $section === 'additional info' && str_starts_with($key, 'created on')
+                        => $result->creationDate ??= $this->parseDate($val),
+
+                    $section === 'additional info' && str_starts_with($key, 'expires on')
+                        => $result->expirationDate ??= $this->parseDate($val),
+
+                    $section === 'additional info' && (
+                        str_starts_with($key, 'updated on') || str_starts_with($key, 'modified')
+                    ) => $result->updatedDate ??= $this->parseDate($val),
+
+                    default => null,
+                };
             }
         }
 
@@ -419,6 +429,15 @@ class WhoisService
         }
         // Strip trailing timezone names / extra tokens (e.g. "2024-01-01T00:00:00Z")
         $date = preg_replace('/\s+\w+$/', '', $date) ?? $date;
+
+        // TRABIS format: "2024-Sep-12" — strtotime may not parse text month with year-first
+        if (preg_match('/^\d{4}-[A-Za-z]{3}-\d{2}$/', $date)) {
+            $dt = \DateTime::createFromFormat('Y-M-d', $date);
+            if ($dt !== false) {
+                return $dt->format('Y-m-d');
+            }
+        }
+
         $ts = strtotime($date);
         return $ts !== false ? date('Y-m-d', $ts) : null;
     }
