@@ -49,13 +49,24 @@ jobs:
           echo "$BODY" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
+      - name: Build source archives
+        run: |
+          VERSION="${{ steps.version.outputs.tag }}"
+          VERSION_BARE="${VERSION#v}"
+          NAME="domainhunter-${VERSION_BARE}"
+          git archive --format=zip --prefix="${NAME}/" HEAD -o "builds/${NAME}.zip"
+          git archive --format=tar.gz --prefix="${NAME}/" HEAD -o "builds/${NAME}.tar.gz"
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.version.outputs.tag }}
           name: "Domain Hunter ${{ steps.version.outputs.tag }}"
           body: ${{ steps.changelog.outputs.body }}
-          files: builds/dh.phar
+          files: |
+            builds/dh.phar
+            builds/domainhunter-*.zip
+            builds/domainhunter-*.tar.gz
           draft: false
           prerelease: false
 
@@ -67,6 +78,7 @@ jobs:
           VERSION_BARE="${VERSION#v}"
           SF_DIR="DomainHunter v${VERSION_BARE}"
           SF_PATH="/home/frs/project/domainhunter/${SF_DIR}"
+          NAME="domainhunter-${VERSION_BARE}"
           mkdir -p ~/.ssh
           echo "$SF_SSH_KEY" > ~/.ssh/sf_key
           chmod 600 ~/.ssh/sf_key
@@ -74,4 +86,6 @@ jobs:
           sftp -i ~/.ssh/sf_key bmericc,domainhunter@frs.sourceforge.net <<SFTP
 mkdir "${SF_PATH}"
 put builds/dh.phar "${SF_PATH}/dh.phar"
+put builds/${NAME}.zip "${SF_PATH}/${NAME}.zip"
+put builds/${NAME}.tar.gz "${SF_PATH}/${NAME}.tar.gz"
 SFTP
