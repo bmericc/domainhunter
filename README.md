@@ -4,6 +4,8 @@ Domain adlarını takip eden, WHOIS değişikliklerini izleyen ve e-posta uyarı
 
 80+ TLD desteği, Punycode/IDN, SQLite/MySQL ve hem **web arayüzü** hem **CLI** ile çalışır.
 
+🌐 **Türkçe** | [English](README.en.md) | [Deutsch](README.de.md) | [Español](README.es.md) | [Português](README.pt.md) | [Русский](README.ru.md) | [中文](README.zh.md) | [日本語](README.ja.md)
+
 ## Gereksinimler
 
 - PHP 8.1+
