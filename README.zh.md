@@ -151,7 +151,7 @@ php -d phar.readonly=0 bin/build.php
 
 ## 关于项目
 
-Domain Hunter 是由土耳其软件开发者 **[Bahri Meriç CANLI](https://domainhunter.tr)** 发布的开源项目。该项目于 2006 年以 *domainhunter.org.tr* 的名称启动，得到了 LKD（Linux 用户协会）及其名誉主席 Mustafa Akgül 的支持，现已全面现代化重写，基于 PHP 8+，具备现代 Web 界面、CLI、SMTP 支持和 8 语言本地化。
+[Domain Hunter](https://domainhunter.tr) 是由土耳其软件开发者 **[Bahri Meriç CANLI](https://bahri.info)** 发布的开源项目。该项目于 2006 年以 *domainhunter.org.tr* 的名称启动，得到了 LKD（Linux 用户协会）及其名誉主席 Mustafa Akgül 的支持，现已全面现代化重写，基于 PHP 8+，具备现代 Web 界面、CLI、SMTP 支持和 8 语言本地化。
 
 ## 许可证
 
