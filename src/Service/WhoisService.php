@@ -13,38 +13,38 @@ class WhoisService
         'com'    => ['host' => 'whois.verisign-grs.com',    'free' => 'No match for'],
         'net'    => ['host' => 'whois.verisign-grs.com',    'free' => 'No match for'],
         'org'    => ['host' => 'whois.pir.org',              'free' => 'NOT FOUND'],
-        'info'   => ['host' => 'whois.afilias.net',          'free' => 'NOT FOUND'],
-        'biz'    => ['host' => 'whois.biz',                  'free' => 'Not found'],
+        'info'   => ['rdap' => 'https://rdap.identitydigital.services/rdap/domain/'],
+        'biz'    => ['rdap' => 'https://rdap.identitydigital.services/rdap/domain/'],
         'io'     => ['host' => 'whois.nic.io',               'free' => 'is available'],
         'co'     => ['host' => 'whois.nic.co',               'free' => 'No Data Found'],
-        'app'    => ['host' => 'whois.nic.google',           'free' => 'NOT FOUND'],
-        'dev'    => ['host' => 'whois.nic.google',           'free' => 'NOT FOUND'],
+        'app'    => ['rdap' => 'https://rdap.nic.google/rdap/domain/'],
+        'dev'    => ['rdap' => 'https://rdap.nic.google/rdap/domain/'],
         'ai'     => ['host' => 'whois.nic.ai',               'free' => 'Not found'],
         'me'     => ['host' => 'whois.nic.me',               'free' => 'NOT FOUND'],
         'tv'     => ['host' => 'tvwhois.verisign-grs.com',   'free' => 'No match for'],
         'xyz'    => ['host' => 'whois.nic.xyz',              'free' => 'No match for'],
-        'online' => ['host' => 'whois.nic.online',           'free' => 'NOT FOUND'],
-        'store'  => ['host' => 'whois.nic.store',            'free' => 'NOT FOUND'],
-        'tech'   => ['host' => 'whois.nic.tech',             'free' => 'NOT FOUND'],
-        'site'   => ['host' => 'whois.nic.site',             'free' => 'NOT FOUND'],
-        'shop'   => ['host' => 'whois.nic.shop',             'free' => 'NOT FOUND'],
-        'club'   => ['host' => 'whois.nic.club',             'free' => 'NOT FOUND'],
-        'pro'    => ['host' => 'whois.afilias.net',          'free' => 'NOT FOUND'],
-        'mobi'   => ['host' => 'whois.afilias.net',          'free' => 'NOT FOUND'],
+        'online' => ['rdap' => 'https://rdap.identitydigital.services/rdap/domain/'],
+        'store'  => ['rdap' => 'https://rdap.identitydigital.services/rdap/domain/'],
+        'tech'   => ['rdap' => 'https://rdap.identitydigital.services/rdap/domain/'],
+        'site'   => ['rdap' => 'https://rdap.identitydigital.services/rdap/domain/'],
+        'shop'   => ['rdap' => 'https://rdap.identitydigital.services/rdap/domain/'],
+        'club'   => ['rdap' => 'https://rdap.identitydigital.services/rdap/domain/'],
+        'pro'    => ['rdap' => 'https://rdap.identitydigital.services/rdap/domain/'],
+        'mobi'   => ['rdap' => 'https://rdap.identitydigital.services/rdap/domain/'],
         'name'   => ['host' => 'whois.nic.name',             'free' => 'No match for'],
         'tel'    => ['host' => 'whois.nic.tel',              'free' => 'NOT FOUND'],
-        'global' => ['host' => 'whois.nic.global',           'free' => 'NOT FOUND'],
-        'link'   => ['host' => 'whois.uniregistry.net',      'free' => 'NOT FOUND'],
-        'click'  => ['host' => 'whois.uniregistry.net',      'free' => 'NOT FOUND'],
-        'media'  => ['host' => 'whois.nic.media',            'free' => 'NOT FOUND'],
-        'agency' => ['host' => 'whois.nic.agency',           'free' => 'NOT FOUND'],
-        'blog'   => ['host' => 'whois.nic.blog',             'free' => 'NOT FOUND'],
-        'cloud'  => ['host' => 'whois.nic.cloud',            'free' => 'NOT FOUND'],
-        'email'  => ['host' => 'whois.nic.email',            'free' => 'NOT FOUND'],
-        'network'=> ['host' => 'whois.nic.network',          'free' => 'NOT FOUND'],
-        'digital'=> ['host' => 'whois.nic.digital',          'free' => 'NOT FOUND'],
-        'design' => ['host' => 'whois.nic.design',           'free' => 'NOT FOUND'],
-        'space'  => ['host' => 'whois.nic.space',            'free' => 'NOT FOUND'],
+        'global' => ['rdap' => 'https://rdap.identitydigital.services/rdap/domain/'],
+        'link'   => ['rdap' => 'https://rdap.identitydigital.services/rdap/domain/'],
+        'click'  => ['rdap' => 'https://rdap.identitydigital.services/rdap/domain/'],
+        'media'  => ['rdap' => 'https://rdap.identitydigital.services/rdap/domain/'],
+        'agency' => ['rdap' => 'https://rdap.identitydigital.services/rdap/domain/'],
+        'blog'   => ['rdap' => 'https://rdap.identitydigital.services/rdap/domain/'],
+        'cloud'  => ['rdap' => 'https://rdap.identitydigital.services/rdap/domain/'],
+        'email'  => ['rdap' => 'https://rdap.identitydigital.services/rdap/domain/'],
+        'network'=> ['rdap' => 'https://rdap.identitydigital.services/rdap/domain/'],
+        'digital'=> ['rdap' => 'https://rdap.identitydigital.services/rdap/domain/'],
+        'design' => ['rdap' => 'https://rdap.identitydigital.services/rdap/domain/'],
+        'space'  => ['rdap' => 'https://rdap.identitydigital.services/rdap/domain/'],
         'web'    => ['host' => 'whois.nic.web',              'free' => 'NOT FOUND'],
 
         // ── Europe ccTLDs ────────────────────────────────────────────────────
@@ -157,8 +157,21 @@ class WhoisService
 
         $server = self::SERVERS[$tld];
         $fqdn   = strtolower($label) . '.' . $tld;
-        $param  = $server['param'] ?? '';
-        $raw    = $this->fetch($server['host'], $fqdn, $param);
+
+        if (isset($server['rdap'])) {
+            $json = $this->fetchRdap($server['rdap'] . $fqdn);
+            if ($json === null) {
+                return null;
+            }
+            $data = json_decode($json, true);
+            if (!is_array($data)) {
+                throw new \RuntimeException("RDAP server returned invalid JSON for .$tld.");
+            }
+            return $this->parseRdap($data);
+        }
+
+        $param = $server['param'] ?? '';
+        $raw   = $this->fetch($server['host'], $fqdn, $param);
 
         if ($raw === null) {
             throw new \RuntimeException(
@@ -173,6 +186,97 @@ class WhoisService
 
         $parserMethod = 'parse' . ucfirst($server['parser'] ?? 'generic');
         return $this->$parserMethod($raw);
+    }
+
+    private function fetchRdap(string $url): ?string
+    {
+        if (function_exists('curl_init')) {
+            $ch = curl_init($url);
+            curl_setopt_array($ch, [
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_TIMEOUT        => 15,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTPHEADER     => ['Accept: application/rdap+json'],
+                CURLOPT_USERAGENT      => 'DomainHunter/2.0',
+            ]);
+            $body = curl_exec($ch);
+            $code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $err  = curl_error($ch);
+            curl_close($ch);
+            if ($body === false || $err !== '') {
+                throw new \RuntimeException("Could not reach RDAP server: $url ($err)");
+            }
+            if ($code === 404) {
+                return null;
+            }
+            if ($code !== 200) {
+                throw new \RuntimeException("RDAP server returned HTTP $code for: $url");
+            }
+            return (string) $body;
+        }
+
+        $ctx  = stream_context_create(['http' => [
+            'timeout' => 15,
+            'header'  => "Accept: application/rdap+json\r\nUser-Agent: DomainHunter/2.0\r\n",
+            'ignore_errors' => true,
+        ]]);
+        $body = @file_get_contents($url, false, $ctx);
+        if ($body === false) {
+            throw new \RuntimeException("Could not reach RDAP server: $url");
+        }
+        $status = $http_response_header[0] ?? '';
+        if (str_contains($status, '404')) {
+            return null;
+        }
+        if (!str_contains($status, '200')) {
+            throw new \RuntimeException("RDAP server returned non-200 for: $url ($status)");
+        }
+        return $body;
+    }
+
+    private function parseRdap(array $data): WhoisResult
+    {
+        $result = new WhoisResult();
+
+        if (isset($data['ldhName'])) {
+            $result->domainName = strtoupper($data['ldhName']);
+        }
+
+        foreach ($data['status'] ?? [] as $s) {
+            $result->statuses[] = (string) $s;
+        }
+
+        foreach ($data['nameservers'] ?? [] as $ns) {
+            if (isset($ns['ldhName'])) {
+                $result->nameServers[] = strtolower($ns['ldhName']);
+            }
+        }
+
+        foreach ($data['events'] ?? [] as $event) {
+            $action = strtolower($event['eventAction'] ?? '');
+            $date   = $this->parseDate($event['eventDate'] ?? '');
+            match ($action) {
+                'registration' => $result->creationDate   ??= $date,
+                'expiration'   => $result->expirationDate ??= $date,
+                'last changed' => $result->updatedDate    ??= $date,
+                default        => null,
+            };
+        }
+
+        foreach ($data['entities'] ?? [] as $entity) {
+            if (!in_array('registrar', $entity['roles'] ?? [], true)) {
+                continue;
+            }
+            foreach ($entity['vcardArray'][1] ?? [] as $field) {
+                if (($field[0] ?? '') === 'fn') {
+                    $result->registrar ??= (string) ($field[3] ?? '');
+                    break;
+                }
+            }
+            break;
+        }
+
+        return $result;
     }
 
     private function fetch(string $host, string $domain, string $param = ''): ?string
