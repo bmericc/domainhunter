@@ -4,7 +4,7 @@ PHP-приложение для отслеживания доменных имё
 
 Поддерживает 80+ TLD, Punycode/IDN, SQLite/MySQL и работает как через **веб-интерфейс**, так и через **CLI**.
 
-🌐 [Türkçe](README.md) | [English](README.en.md) | [Deutsch](README.de.md) | [Español](README.es.md) | [Português](README.pt.md) | **Русский** | [中文](README.zh.md) | [日本語](README.ja.md)
+🌐 [Türkçe](README.tr.md) | [English](README.md) | [Deutsch](README.de.md) | [Español](README.es.md) | [Português](README.pt.md) | **Русский** | [中文](README.zh.md) | [日本語](README.ja.md)
 
 ## Требования
 

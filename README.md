@@ -1,57 +1,57 @@
 # Domain Hunter
 
-Domain adlarını takip eden, WHOIS değişikliklerini izleyen ve e-posta uyarısı gönderen PHP uygulaması.
+A PHP application that tracks domain names, monitors WHOIS changes, and sends email alerts.
 
-80+ TLD desteği, Punycode/IDN, SQLite/MySQL ve hem **web arayüzü** hem **CLI** ile çalışır.
+Supports 80+ TLDs, Punycode/IDN, SQLite/MySQL and works with both a **web interface** and **CLI**.
 
-🌐 **Türkçe** | [English](README.en.md) | [Deutsch](README.de.md) | [Español](README.es.md) | [Português](README.pt.md) | [Русский](README.ru.md) | [中文](README.zh.md) | [日本語](README.ja.md)
+🌐 [Türkçe](README.tr.md) | **English** | [Deutsch](README.de.md) | [Español](README.es.md) | [Português](README.pt.md) | [Русский](README.ru.md) | [中文](README.zh.md) | [日本語](README.ja.md)
 
-## Gereksinimler
+## Requirements
 
 - PHP 8.1+
-- `ext-intl` (Punycode için)
-- `ext-pdo`, `ext-pdo_sqlite` veya `ext-pdo_mysql`
+- `ext-intl` (for Punycode)
+- `ext-pdo`, `ext-pdo_sqlite` or `ext-pdo_mysql`
 - Composer
 
-## Kurulum
+## Installation
 
-### Web + CLI (tam kurulum)
+### Web + CLI (full installation)
 
 ```bash
 git clone https://github.com/bmericc/domainhunter.git
 cd domainhunter
 composer install
 cp .env.example .env
-# .env dosyasını düzenleyin
+# Edit the .env file
 ```
 
-Web sunucusunu `public/` dizinine yönlendirin.
+Point your web server to the `public/` directory.
 
-### Sadece CLI — PHAR (sıfır-kurulum)
+### CLI only — PHAR (zero-install)
 
 ```bash
-# Hazır binary'i indirin:
+# Download the ready binary:
 curl -L https://github.com/bmericc/domainhunter/releases/latest/download/dh.phar -o dh
 chmod +x dh
 ./dh domain:add example.com
 ```
 
-Ya da sistem geneline kurun:
+Or install system-wide:
 
 ```bash
 cp dh.phar /usr/local/bin/dh && chmod +x /usr/local/bin/dh
 dh domain:list
 ```
 
-## Yapılandırma
+## Configuration
 
-`.env` dosyası (PHAR kullanımında `dh.phar` yanına ya da çalışma dizinine):
+`.env` file (for PHAR usage, place next to `dh.phar` or in the working directory):
 
 ```ini
-# Web arayüzü dili: en | tr | de | es | pt | ru | zh | ja  (varsayılan: en)
-APP_LANG=tr
+# Web interface language: en | tr | de | es | pt | ru | zh | ja  (default: en)
+APP_LANG=en
 
-# SQLite (varsayılan — sıfır-konfigürasyon)
+# SQLite (default — zero-configuration)
 DB_DRIVER=sqlite
 DB_PATH=/var/lib/domainhunter/domainhunter.sqlite
 
@@ -62,24 +62,24 @@ DB_NAME=domainhunter
 DB_USER=root
 DB_PASS=secret
 
-# E-posta uyarıları (değişiklik olunca bildir)
+# Email alerts (notify on change)
 ALERT_EMAIL=admin@example.com
 
-# SMTP (ayarlanmazsa PHP mail() kullanılır)
+# SMTP (falls back to PHP mail() if not set)
 MAILER_DSN=smtp://user:pass@smtp.example.com:587
 MAILER_FROM=domainhunter@example.com
 ```
 
-`MAILER_DSN` örnekleri:
+`MAILER_DSN` examples:
 
-| Senaryo | DSN |
-|---------|-----|
-| Genel SMTP | `smtp://user:pass@smtp.example.com:587` |
+| Scenario | DSN |
+|----------|-----|
+| Generic SMTP | `smtp://user:pass@smtp.example.com:587` |
 | Gmail | `smtp://user:app-pass@smtp.gmail.com:465?encryption=tls` |
-| Sunucu MTA (Postfix vb.) | `native://default` |
-| Ayarsız (PHP mail()) | — boş bırakın —
+| Server MTA (Postfix etc.) | `native://default` |
+| Not configured (PHP mail()) | — leave empty —
 
-### Veritabanı Şeması
+### Database Schema
 
 ```bash
 # SQLite
@@ -89,55 +89,55 @@ sqlite3 domainhunter.sqlite < database/schema.sqlite.sql
 mysql -u root -p domainhunter < database/schema.sql
 ```
 
-## CLI Kullanımı
+## CLI Usage
 
 ```bash
-# Domain ekle
+# Add a domain
 dh domain:add example.com
-dh domain:add türkiye.com.tr        # Punycode otomatik dönüşür
+dh domain:add türkiye.com.tr        # Punycode converted automatically
 dh domain:add shop.co.uk
 
-# Listeye bak
+# List domains
 dh domain:list
-dh domain:list --order=expiry       # son kullanma tarihine göre sırala
+dh domain:list --order=expiry       # sort by expiry date
 dh domain:list --order=updated
-dh domain:list --format=csv         # CSV çıktısı
+dh domain:list --format=csv         # CSV output
 
-# WHOIS sorgula / güncelle
-dh domain:refresh                   # tüm domainler
-dh domain:refresh example.com       # tek domain
+# Query / refresh WHOIS
+dh domain:refresh                   # all domains
+dh domain:refresh example.com       # single domain
 
-# Domain sil
+# Delete a domain
 dh domain:delete example.com
 dh domain:delete example.com --force
 ```
 
-## Cron ile Otomatik Takip
+## Automated Monitoring with Cron
 
 ```bash
-# Her gece saat 02:00'de tüm domainleri sorgula
+# Query all domains every night at 02:00
 0 2 * * * /usr/local/bin/dh domain:refresh >> /var/log/domainhunter.log 2>&1
 
-# Alternatif: cron.php scripti
+# Alternative: cron.php script
 0 2 * * * php /path/to/domainhunter/bin/cron.php >> /var/log/domainhunter.log 2>&1
 ```
 
-## PHAR Derleme
+## Building the PHAR
 
 ```bash
 make phar
-# veya
+# or
 php -d phar.readonly=0 bin/build.php
 # → builds/dh.phar
 ```
 
-## Desteklenen TLD'ler
+## Supported TLDs
 
-### .tr Uzantıları
+### .tr Extensions
 `.com.tr` `.net.tr` `.org.tr` `.edu.tr` `.gov.tr` `.web.tr`
 `.bel.tr` `.k12.tr` `.pol.tr` `.av.tr` `.dr.tr` `.tc`
 
-### Popüler ccTLD'ler
+### Popular ccTLDs
 `.de` `.uk` `.co.uk` `.org.uk` `.me.uk` `.nl` `.fr` `.eu` `.it`
 `.es` `.pl` `.ru` `.cn` `.jp` `.kr` `.au` `.com.au` `.net.au`
 `.ca` `.br` `.com.br` `.net.br` `.mx` `.ar` `.in` `.co.in`
@@ -145,12 +145,12 @@ php -d phar.readonly=0 bin/build.php
 `.ro` `.ua` `.bg` `.gr` `.hr` `.sk` `.si` `.lt` `.lv` `.ee`
 `.io` `.me` `.co` `.tv` `.us` `.biz` `.info` `.mobi`
 
-### gTLD'ler
+### gTLDs
 `.com` `.net` `.org` `.info` `.biz` `.name` `.pro` `.mobi`
-`.tel` `.travel` `.jobs` `.museum` ve daha fazlası
+`.tel` `.travel` `.jobs` `.museum` and more
 
-## Lisans
+## License
 
-GNU General Public License v3.0 — bkz. [COPYING](COPYING)
+GNU General Public License v3.0 — see [COPYING](COPYING)
 
-Orijinal proje: Copyright (C) 2011 Bahri Meriç CANLΙ
+Original project: Copyright (C) 2011 Bahri Meriç CANLI

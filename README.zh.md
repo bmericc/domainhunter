@@ -4,7 +4,7 @@
 
 支持 80+ 顶级域名、Punycode/IDN、SQLite/MySQL，同时提供 **Web 界面** 和 **CLI** 两种使用方式。
 
-🌐 [Türkçe](README.md) | [English](README.en.md) | [Deutsch](README.de.md) | [Español](README.es.md) | [Português](README.pt.md) | [Русский](README.ru.md) | **中文** | [日本語](README.ja.md)
+🌐 [Türkçe](README.tr.md) | [English](README.md) | [Deutsch](README.de.md) | [Español](README.es.md) | [Português](README.pt.md) | [Русский](README.ru.md) | **中文** | [日本語](README.ja.md)
 
 ## 环境要求
 

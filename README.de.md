@@ -4,7 +4,7 @@ Eine PHP-Anwendung zur Überwachung von Domains, Verfolgung von WHOIS-Änderunge
 
 Unterstützt 80+ TLDs, Punycode/IDN, SQLite/MySQL und funktioniert sowohl mit einem **Webinterface** als auch über die **CLI**.
 
-🌐 [Türkçe](README.md) | [English](README.en.md) | **Deutsch** | [Español](README.es.md) | [Português](README.pt.md) | [Русский](README.ru.md) | [中文](README.zh.md) | [日本語](README.ja.md)
+🌐 [Türkçe](README.tr.md) | [English](README.md) | **Deutsch** | [Español](README.es.md) | [Português](README.pt.md) | [Русский](README.ru.md) | [中文](README.zh.md) | [日本語](README.ja.md)
 
 ## Voraussetzungen
 

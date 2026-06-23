@@ -4,7 +4,7 @@ Una aplicación PHP que rastrea nombres de dominio, monitorea cambios en WHOIS y
 
 Soporta más de 80 TLDs, Punycode/IDN, SQLite/MySQL y funciona tanto con una **interfaz web** como con **CLI**.
 
-🌐 [Türkçe](README.md) | [English](README.en.md) | [Deutsch](README.de.md) | **Español** | [Português](README.pt.md) | [Русский](README.ru.md) | [中文](README.zh.md) | [日本語](README.ja.md)
+🌐 [Türkçe](README.tr.md) | [English](README.md) | [Deutsch](README.de.md) | **Español** | [Português](README.pt.md) | [Русский](README.ru.md) | [中文](README.zh.md) | [日本語](README.ja.md)
 
 ## Requisitos
 
