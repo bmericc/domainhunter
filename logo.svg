@@ -1,32 +1,32 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 70" width="150" height="70" role="img" aria-label="Domain Hunter">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 68" width="150" height="68" role="img" aria-label="Domain Hunter">
   <title>Domain Hunter</title>
 
-  <g fill="none" stroke="#111" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <g fill="none" stroke="#111" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
 
-    <!-- CENTER SHAFT: y=17(tip) → y=57(crossbar) -->
-    <line x1="33" y1="17" x2="33" y2="57"/>
-    <polyline points="29,21  33,17  37,21"/>
+    <!-- CENTER SHAFT -->
+    <line x1="33" y1="17" x2="33" y2="60"/>
+    <polyline points="30.2,21.2  33,17  35.8,21.2"/>
 
-    <!-- LEFT PRONG: y=25 → y=41 -->
-    <line x1="17" y1="25" x2="17" y2="41"/>
-    <polyline points="13,29  17,25  21,29"/>
+    <!-- LEFT PRONG -->
+    <line x1="21.7" y1="25.5" x2="21.7" y2="42.4"/>
+    <polyline points="18.9,29.7  21.7,25.5  24.5,29.7"/>
 
-    <!-- RIGHT PRONG: y=25 → y=41 -->
-    <line x1="49" y1="25" x2="49" y2="41"/>
-    <polyline points="45,29  49,25  53,29"/>
+    <!-- RIGHT PRONG -->
+    <line x1="44.3" y1="25.5" x2="44.3" y2="42.4"/>
+    <polyline points="41.5,29.7  44.3,25.5  47.1,29.7"/>
 
     <!-- CURVED BASE -->
-    <path d="M 17,41 C 17,50 33,50 33,50 C 33,50 49,50 49,41"/>
+    <path d="M 21.7,42.4 C 21.7,51.5 33,51.5 33,51.5 C 33,51.5 44.3,51.5 44.3,42.4"/>
 
-    <!-- T-CROSSBAR at y=57, feet y=53..61 -->
-    <line x1="24" y1="57" x2="42" y2="57"/>
-    <line x1="24" y1="53" x2="24" y2="61"/>
-    <line x1="42" y1="53" x2="42" y2="61"/>
+    <!-- T-CROSSBAR -->
+    <line x1="26.7" y1="60" x2="39.3" y2="60"/>
+    <line x1="26.7" y1="57.2" x2="26.7" y2="62.8"/>
+    <line x1="39.3" y1="57.2" x2="39.3" y2="62.8"/>
 
   </g>
 
-  <!-- DH: baseline y=60, cap top ≈ y=17 — çatalla aynı yükseklik -->
-  <text x="60" y="60"
+  <!-- DH text: baseline y=60, cap top ≈ y=17 -->
+  <text x="55" y="60"
         font-family="'Liberation Mono','Courier New',Courier,monospace"
         font-size="64"
         font-weight="700"
