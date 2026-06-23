@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Repository\DomainHistoryRepository;
 use App\Repository\DomainRepository;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
@@ -11,12 +12,19 @@ use Symfony\Component\Mime\Email;
 class DomainService
 {
     public function __construct(
-        private readonly WhoisService      $whois,
-        private readonly DomainRepository  $repository,
-        private readonly string            $alertEmail,
-        private readonly ?MailerInterface  $mailer = null,
-        private readonly string            $mailerFrom = '',
+        private readonly WhoisService            $whois,
+        private readonly DomainRepository        $repository,
+        private readonly DomainHistoryRepository $history,
+        private readonly string                  $alertEmail,
+        private readonly ?MailerInterface        $mailer = null,
+        private readonly string                  $mailerFrom = '',
     ) {}
+
+    public function delete(int $id): void
+    {
+        $this->history->deleteByDomainId($id);
+        $this->repository->delete($id);
+    }
 
     /**
      * @throws \InvalidArgumentException on bad domain format / unsupported TLD
@@ -84,11 +92,16 @@ class DomainService
 
         $this->repository->update($row['domain'], $newRow);
 
-        if ($changes !== [] && $this->alertEmail !== '') {
-            $this->sendAlert($row['domain'], $changes);
+        if ($changes !== []) {
+            foreach ($changes as $field => $pair) {
+                $this->history->insert((int) $row['id'], $field, $pair['old'], $pair['new']);
+            }
+            if ($this->alertEmail !== '') {
+                $this->sendAlert($row['domain'], $changes);
+            }
         }
 
-        return $changes;
+        return array_map(fn($f, $p) => "$f: \"{$p['old']}\" → \"{$p['new']}\"", array_keys($changes), $changes);
     }
 
     private function parseDomain(string $input): array
@@ -169,16 +182,18 @@ class DomainService
         ];
     }
 
+    /** @return array<string, array{old: string, new: string}> */
     private function detectChanges(array $old, array $new): array
     {
-        $watch   = ['register', 'nameserv1', 'nameserv2', 'status1', 'create_date', 'update_date', 'expirate_date'];
+        $watch   = ['register', 'nameserv1', 'nameserv2', 'nameserv3', 'nameserv4', 'nameserv5',
+                    'status1', 'status2', 'status3', 'create_date', 'update_date', 'expirate_date'];
         $changes = [];
 
         foreach ($watch as $field) {
-            $a = $old[$field] ?? '';
-            $b = $new[":$field"] ?? '';
+            $a = (string) ($old[$field] ?? '');
+            $b = (string) ($new[":$field"] ?? '');
             if ($a !== $b) {
-                $changes[] = "$field: \"$a\" → \"$b\"";
+                $changes[$field] = ['old' => $a, 'new' => $b];
             }
         }
 
@@ -188,8 +203,9 @@ class DomainService
     private function sendAlert(string $domain, array $changes): void
     {
         $subject = "Domain alert: $domain";
+        $lines   = array_map(fn($f, $p) => "$f: \"{$p['old']}\" → \"{$p['new']}\"", array_keys($changes), $changes);
         $body    = "Domain Hunter detected changes for $domain\n\n"
-                 . implode("\n", $changes)
+                 . implode("\n", $lines)
                  . "\n\n--\nDomain Hunter";
         $from    = $this->mailerFrom ?: ('domainhunter@' . gethostname());
 

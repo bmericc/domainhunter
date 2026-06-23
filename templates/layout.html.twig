@@ -232,6 +232,40 @@
         .count-badge  { color: var(--accent); font-weight: 700; margin-left: .3rem; }
         .expiry-urgent  { color: #dc2626; font-weight: 700; }
         .expiry-warning { color: #d97706; font-weight: 600; }
+
+        /* ── Search ──────────────────────────────────────── */
+        .search-form  { display: flex; }
+        .search-input {
+            width: 220px;
+            padding: .32rem .75rem;
+            border: 1.5px solid var(--border);
+            border-radius: 7px;
+            font-size: .82rem;
+            background: var(--bg);
+            color: var(--text);
+            outline: none;
+            transition: border-color .15s, box-shadow .15s;
+        }
+        .search-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(245,158,11,.12);
+            background: #fff;
+        }
+
+        /* ── Detail grid ─────────────────────────────────── */
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem 1.5rem;
+        }
+        .detail-item-full { grid-column: 1 / -1; }
+        .detail-label { display: block; font-size: .7rem; font-weight: 600; text-transform: uppercase;
+                        letter-spacing: .07em; color: var(--text-muted); margin-bottom: .2rem; }
+        .detail-value { font-size: .88rem; color: var(--text); word-break: break-all; }
+
+        /* ── History table ───────────────────────────────── */
+        .history-old { color: #dc2626; font-size: .82rem; }
+        .history-new { color: #166534; font-size: .82rem; font-weight: 600; }
     </style>
 </head>
 <body>

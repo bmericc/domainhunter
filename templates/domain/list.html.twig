@@ -4,37 +4,51 @@
 <div class="card">
     <div class="card-head">
         <h2>{{ t.heading_list }}<span class="count-badge">{{ total }}</span></h2>
+        <form method="get" action="/" class="search-form">
+            <input type="text" name="search" value="{{ search }}"
+                   placeholder="{{ t.search_placeholder }}"
+                   autocomplete="off" spellcheck="false" class="search-input">
+            {% if order != 'checked' %}<input type="hidden" name="order" value="{{ order }}">{% endif %}
+        </form>
     </div>
 
     {% if domains is empty %}
         <div class="card-body">
-            <p class="text-muted">{{ t.no_domains }} <a href="/domains/add" style="color:var(--accent)">{{ t.add_one }}</a></p>
+            {% if search %}
+                <p class="text-muted">"<strong>{{ search }}</strong>" için sonuç bulunamadı.</p>
+            {% else %}
+                <p class="text-muted">{{ t.no_domains }} <a href="/domains/add" style="color:var(--accent)">{{ t.add_one }}</a></p>
+            {% endif %}
         </div>
     {% else %}
         <table>
             <thead>
                 <tr>
                     <th style="width:40px">#</th>
-                    <th>{{ t.col_domain }}</th>
+                    <th>
+                        <a href="?order=domain{% if search %}&search={{ search|url_encode }}{% endif %}{% if page > 1 %}&page={{ page }}{% endif %}">
+                            {{ t.col_domain }}{% if order == 'domain' %} ▾{% endif %}
+                        </a>
+                    </th>
                     <th>{{ t.col_status }}</th>
                     <th>{{ t.col_registrar }}</th>
                     <th>{{ t.col_created }}</th>
                     <th>
-                        <a href="?order=updated{% if page > 1 %}&page={{ page }}{% endif %}">
+                        <a href="?order=updated{% if search %}&search={{ search|url_encode }}{% endif %}{% if page > 1 %}&page={{ page }}{% endif %}">
                             {{ t.col_updated }}{% if order == 'updated' %} ▾{% endif %}
                         </a>
                     </th>
                     <th>
-                        <a href="?order=expiry{% if page > 1 %}&page={{ page }}{% endif %}">
+                        <a href="?order=expiry{% if search %}&search={{ search|url_encode }}{% endif %}{% if page > 1 %}&page={{ page }}{% endif %}">
                             {{ t.col_expires }}{% if order == 'expiry' %} ▾{% endif %}
                         </a>
                     </th>
                     <th>
-                        <a href="?order=checked{% if page > 1 %}&page={{ page }}{% endif %}">
+                        <a href="?order=checked{% if search %}&search={{ search|url_encode }}{% endif %}{% if page > 1 %}&page={{ page }}{% endif %}">
                             {{ t.col_last_check }}{% if order == 'checked' %} ▾{% endif %}
                         </a>
                     </th>
-                    <th style="width:70px"></th>
+                    <th style="width:110px"></th>
                 </tr>
             </thead>
             <tbody>
@@ -80,10 +94,13 @@
                     </td>
                     <td class="text-muted">{{ domain.hunter_update ? domain.hunter_update|slice(0,16) : '—' }}</td>
                     <td>
-                        <form method="post" action="/domains/{{ domain.id }}/delete"
-                              onsubmit="return confirm('{{ t.confirm_delete|replace({'{domain}': domain.domain})|e('js') }}')">
-                            <button type="submit" class="btn btn-danger">{{ t.btn_delete }}</button>
-                        </form>
+                        <div style="display:flex;gap:.4rem">
+                            <a href="/domains/{{ domain.id }}" class="btn btn-secondary btn-sm">Detail</a>
+                            <form method="post" action="/domains/{{ domain.id }}/delete"
+                                  onsubmit="return confirm('{{ t.confirm_delete|replace({'{domain}': domain.domain})|e('js') }}')">
+                                <button type="submit" class="btn btn-danger">{{ t.btn_delete }}</button>
+                            </form>
+                        </div>
                     </td>
                 </tr>
                 {% endfor %}
@@ -93,17 +110,17 @@
         {% if total_pages > 1 %}
         <div class="pagination" style="padding:1rem 1.25rem 1.25rem">
             {% if page > 1 %}
-                <a href="?order={{ order }}&page={{ page - 1 }}">{{ t.pag_prev }}</a>
+                <a href="?order={{ order }}{% if search %}&search={{ search|url_encode }}{% endif %}&page={{ page - 1 }}">{{ t.pag_prev }}</a>
             {% endif %}
             {% for p in 1..total_pages %}
                 {% if p == page %}
                     <span class="current">{{ p }}</span>
                 {% else %}
-                    <a href="?order={{ order }}&page={{ p }}">{{ p }}</a>
+                    <a href="?order={{ order }}{% if search %}&search={{ search|url_encode }}{% endif %}&page={{ p }}">{{ p }}</a>
                 {% endif %}
             {% endfor %}
             {% if page < total_pages %}
-                <a href="?order={{ order }}&page={{ page + 1 }}">{{ t.pag_next }}</a>
+                <a href="?order={{ order }}{% if search %}&search={{ search|url_encode }}{% endif %}&page={{ page + 1 }}">{{ t.pag_next }}</a>
             {% endif %}
         </div>
         {% endif %}
