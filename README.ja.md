@@ -4,7 +4,7 @@
 
 80以上のTLD、Punycode/IDN、SQLite/MySQL に対応し、**Web インターフェース**と **CLI** の両方で動作します。
 
-🌐 [Türkçe](README.md) | [English](README.en.md) | [Deutsch](README.de.md) | [Español](README.es.md) | [Português](README.pt.md) | [Русский](README.ru.md) | [中文](README.zh.md) | **日本語**
+🌐 [Türkçe](README.tr.md) | [English](README.md) | [Deutsch](README.de.md) | [Español](README.es.md) | [Português](README.pt.md) | [Русский](README.ru.md) | [中文](README.zh.md) | **日本語**
 
 ## 動作要件
 
