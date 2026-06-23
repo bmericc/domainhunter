@@ -22,7 +22,10 @@ class DomainService
      * @throws \InvalidArgumentException on bad domain format / unsupported TLD
      * @throws \RuntimeException on duplicate or WHOIS failure
      */
-    public function add(string $input): string
+    /**
+     * @return array{domain: string, registered: bool}
+     */
+    public function add(string $input): array
     {
         ['label' => $label, 'tld' => $tld] = $this->parseDomain($input);
         $normalized = strtoupper($label . '.' . $tld);
@@ -34,7 +37,7 @@ class DomainService
         $result = $this->whois->lookup($label, $tld);
         $this->repository->insert($this->toRow($normalized, $result));
 
-        return $normalized;
+        return ['domain' => $normalized, 'registered' => $result !== null];
     }
 
     /**

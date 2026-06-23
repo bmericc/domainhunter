@@ -26,8 +26,10 @@ class DomainAddAction
             $input = trim((string) ($body['domain'] ?? ''));
 
             try {
-                $this->domainService->add($input);
-                $success = "Domain \"$input\" added and queried successfully.";
+                ['domain' => $stored, 'registered' => $registered] = $this->domainService->add($input);
+                $success = $registered
+                    ? "Domain \"$stored\" added successfully."
+                    : "Domain \"$stored\" added (not registered — no WHOIS data available).";
             } catch (\InvalidArgumentException | \RuntimeException $e) {
                 $error = $e->getMessage();
             }
