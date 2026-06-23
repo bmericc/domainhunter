@@ -46,7 +46,7 @@ dh domain:list
 `.env` dosyası (PHAR kullanımında `dh.phar` yanına ya da çalışma dizinine):
 
 ```ini
-# Web arayüzü dili: en | tr | de | es | pt | ru  (varsayılan: en)
+# Web arayüzü dili: en | tr | de | es | pt | ru | zh | ja  (varsayılan: en)
 APP_LANG=tr
 
 # SQLite (varsayılan — sıfır-konfigürasyon)
