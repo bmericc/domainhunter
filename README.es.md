@@ -149,8 +149,12 @@ php -d phar.readonly=0 bin/build.php
 `.com` `.net` `.org` `.info` `.biz` `.name` `.pro` `.mobi`
 `.tel` `.travel` `.jobs` `.museum` y más
 
+## Acerca del proyecto
+
+Domain Hunter fue creado originalmente en 2006 por **[Bahri Meriç CANLI](https://domainhunter.tr)**, un desarrollador de software con sede en Turquía. El proyecto fue publicado inicialmente como *domainhunter.org.tr* con el apoyo de LKD (Asociación de Usuarios de Linux) y su presidente honorario Mustafa Akgül. Este repositorio es una modernización completa de ese trabajo, reescrito para PHP 8+ con interfaz web moderna, CLI, soporte SMTP y localización en 8 idiomas.
+
 ## Licencia
 
 GNU General Public License v3.0 — ver [COPYING](COPYING)
 
-Proyecto original: Copyright (C) 2011 Bahri Meriç CANLI
+Copyright (C) 2011 Bahri Meriç CANLI
