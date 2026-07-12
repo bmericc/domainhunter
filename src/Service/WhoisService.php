@@ -53,6 +53,7 @@ class WhoisService
         'support' => ['rdap' => 'https://rdap.identitydigital.services/rdap/domain/'],
         'center'  => ['rdap' => 'https://rdap.identitydigital.services/rdap/domain/'],
         'guru'    => ['rdap' => 'https://rdap.identitydigital.services/rdap/domain/'],
+        'gift' => ['rdap' => 'https://rdap.registry.gift/rdap/domain/'],
 
         // ── Europe ccTLDs ────────────────────────────────────────────────────
         'eu'     => ['host' => 'whois.eu',                   'free' => 'Status: AVAILABLE'],
