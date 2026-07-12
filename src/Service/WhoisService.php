@@ -49,6 +49,10 @@ class WhoisService
         'pw'      => ['rdap' => 'https://rdap.radix.host/rdap/domain/'],
         'rocks'   => ['rdap' => 'https://rdap.identitydigital.services/rdap/domain/'],
         'website' => ['rdap' => 'https://rdap.radix.host/rdap/domain/'],
+        'land'    => ['rdap' => 'https://rdap.identitydigital.services/rdap/domain/'],
+        'support' => ['rdap' => 'https://rdap.identitydigital.services/rdap/domain/'],
+        'center'  => ['rdap' => 'https://rdap.identitydigital.services/rdap/domain/'],
+        'guru'    => ['rdap' => 'https://rdap.identitydigital.services/rdap/domain/'],
 
         // ── Europe ccTLDs ────────────────────────────────────────────────────
         'eu'     => ['host' => 'whois.eu',                   'free' => 'Status: AVAILABLE'],
