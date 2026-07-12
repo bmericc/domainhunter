@@ -46,6 +46,9 @@ class WhoisService
         'design' => ['rdap' => 'https://rdap.nic.design/domain/'],
         'space'  => ['rdap' => 'https://rdap.radix.host/rdap/domain/'],
         'web'    => ['host' => 'whois.nic.web',              'free' => 'NOT FOUND'],
+        'pw'      => ['rdap' => 'https://rdap.radix.host/rdap/domain/'],
+        'rocks'   => ['rdap' => 'https://rdap.identitydigital.services/rdap/domain/'],
+        'website' => ['rdap' => 'https://rdap.radix.host/rdap/domain/'],
 
         // ── Europe ccTLDs ────────────────────────────────────────────────────
         'eu'     => ['host' => 'whois.eu',                   'free' => 'Status: AVAILABLE'],
