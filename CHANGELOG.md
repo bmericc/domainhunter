@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.0.1] - 2026-07-13
+
+### Değişti
+- WHOIS/RDAP sorgulama ve domain-adı ayrıştırma (Punycode/IDN, compound-TLD
+  tespiti) ayrı, framework-agnostic bir pakete taşındı:
+  [`bahricanli/domainhunter`](https://github.com/bahricanli/laravel-domainhunter).
+  Bu mantık artık bu proje ile `domainhunter-app` (Laravel, çok kullanıcılı
+  rewrite) arasında tekrarsız paylaşılıyor.
+- `App\Service\WhoisService` ve `App\Service\WhoisResult` kaldırıldı, yerine
+  paylaşılan pakedin `BahriCanli\DomainHunter\WhoisService` /
+  `WhoisResult` / `DomainParser` sınıfları kullanılıyor.
+- Kullanıcıya görünen davranışta değişiklik yok (CLI ve web arayüzü aynı
+  şekilde çalışır).
+
 ## [2.0.0] - 2026-06-22
 
 Projenin tamamen yeniden yazımı. Orijinal 2011 kodundan geriye yalnızca fikir kaldı.
