@@ -154,12 +154,12 @@ php -d phar.readonly=0 bin/build.php
 WHOIS/RDAP lookup and domain-name parsing (Punycode/IDN, compound-TLD
 detection) live in a separate, framework-agnostic package,
 [`bahricanli/domainhunter`](https://github.com/bahricanli/laravel-domainhunter),
-so the same logic is shared between this project and domainhunter-app (the
-Laravel-based multi-user rewrite, `[private repo]`)
-instead of being duplicated. `App\Service\
-DomainService` in this repo consumes it via `BahriCanli\DomainHunter\
-WhoisService` and `BahriCanli\DomainHunter\DomainParser`; only the
-PDO-backed persistence/history/alert-email logic stays in this project.
+so the same logic is shared between this project and the multi-user web
+rewrite running at [app.domainhunter.tr](https://app.domainhunter.tr)
+instead of being duplicated. `App\Service\DomainService` in this repo
+consumes it via `BahriCanli\DomainHunter\WhoisService` and
+`BahriCanli\DomainHunter\DomainParser`; only the PDO-backed
+persistence/history/alert-email logic stays in this project.
 
 ## About
 
