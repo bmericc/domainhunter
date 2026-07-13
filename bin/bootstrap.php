@@ -5,7 +5,8 @@ declare(strict_types=1);
 use App\Repository\DomainHistoryRepository;
 use App\Repository\DomainRepository;
 use App\Service\DomainService;
-use App\Service\WhoisService;
+use BahriCanli\DomainHunter\DomainParser;
+use BahriCanli\DomainHunter\WhoisService;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\Transport;
 
@@ -32,10 +33,11 @@ $pdo = buildPdo($settings['db']);
 $repository = new DomainRepository($pdo);
 $history    = new DomainHistoryRepository($pdo);
 $whois      = new WhoisService();
+$parser     = new DomainParser($whois);
 
 $app    = $settings['app'];
 $mailer = $app['mailer_dsn'] !== ''
     ? new Mailer(Transport::fromDsn($app['mailer_dsn']))
     : null;
 
-$service = new DomainService($whois, $repository, $history, $app['alert_email'], $mailer, $app['mailer_from']);
+$service = new DomainService($whois, $parser, $repository, $history, $app['alert_email'], $mailer, $app['mailer_from']);

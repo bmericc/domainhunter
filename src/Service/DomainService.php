@@ -6,6 +6,9 @@ namespace App\Service;
 
 use App\Repository\DomainHistoryRepository;
 use App\Repository\DomainRepository;
+use BahriCanli\DomainHunter\DomainParser;
+use BahriCanli\DomainHunter\WhoisResult;
+use BahriCanli\DomainHunter\WhoisService;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 
@@ -13,6 +16,7 @@ class DomainService
 {
     public function __construct(
         private readonly WhoisService            $whois,
+        private readonly DomainParser             $parser,
         private readonly DomainRepository        $repository,
         private readonly DomainHistoryRepository $history,
         private readonly string                  $alertEmail,
@@ -35,7 +39,7 @@ class DomainService
      */
     public function add(string $input): array
     {
-        ['label' => $label, 'tld' => $tld] = $this->parseDomain($input);
+        ['label' => $label, 'tld' => $tld] = $this->parser->parse($input);
         $normalized = strtoupper($label . '.' . $tld);
 
         if ($this->repository->existsByDomain($normalized)) {
@@ -84,7 +88,7 @@ class DomainService
     private function refreshRow(array $row): array
     {
         try {
-            ['label' => $label, 'tld' => $tld] = $this->parseDomain(strtolower($row['domain']));
+            ['label' => $label, 'tld' => $tld] = $this->parser->parse(strtolower($row['domain']));
             $result = $this->whois->lookup($label, $tld);
         } catch (\Throwable) {
             return [];
@@ -105,60 +109,6 @@ class DomainService
         }
 
         return array_map(fn($f, $p) => "$f: \"{$p['old']}\" → \"{$p['new']}\"", array_keys($changes), $changes);
-    }
-
-    private function parseDomain(string $input): array
-    {
-        $input = strtolower(trim($input));
-        $input = preg_replace('/^www\./', '', $input) ?? $input;
-        $parts = explode('.', $input);
-
-        if (count($parts) < 2) {
-            throw new \InvalidArgumentException("Invalid domain format. Example: example.com or example.com.tr");
-        }
-
-        // Detect compound TLDs (e.g. com.tr, co.uk, com.au) before single-part fallback
-        if (count($parts) >= 3) {
-            $candidate = $parts[count($parts) - 2] . '.' . $parts[count($parts) - 1];
-            if (in_array($candidate, $this->whois->compoundTlds(), true)) {
-                $label = $this->toPunycode(implode('.', array_slice($parts, 0, -2)));
-                return $this->validateLabel($label, $candidate);
-            }
-        }
-
-        $tld   = array_pop($parts);
-        $label = $this->toPunycode(implode('.', $parts));
-
-        return $this->validateLabel($label, $tld);
-    }
-
-    /**
-     * Converts a Unicode label to its ASCII-compatible encoding (Punycode).
-     * Passes ASCII labels through unchanged.
-     */
-    private function toPunycode(string $label): string
-    {
-        if (!function_exists('idn_to_ascii') || mb_detect_encoding($label, 'ASCII', true) !== false) {
-            return $label;
-        }
-
-        $ascii = idn_to_ascii($label, IDNA_DEFAULT, INTL_IDNA_VARIANT_UTS46);
-        if ($ascii === false) {
-            throw new \InvalidArgumentException("Cannot convert \"$label\" to ASCII/Punycode.");
-        }
-
-        return $ascii;
-    }
-
-    private function validateLabel(string $label, string $tld): array
-    {
-        if (strlen($label) < 2) {
-            throw new \InvalidArgumentException("Domain label is too short.");
-        }
-        if (!preg_match('/^[a-z0-9]([a-z0-9\-]{0,61}[a-z0-9])?$/', $label)) {
-            throw new \InvalidArgumentException("Domain label contains invalid characters.");
-        }
-        return ['label' => $label, 'tld' => $tld];
     }
 
     private function toRow(string $domain, ?WhoisResult $r): array

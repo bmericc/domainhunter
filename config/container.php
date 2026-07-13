@@ -5,7 +5,8 @@ declare(strict_types=1);
 use App\Repository\DomainHistoryRepository;
 use App\Repository\DomainRepository;
 use App\Service\DomainService;
-use App\Service\WhoisService;
+use BahriCanli\DomainHunter\DomainParser;
+use BahriCanli\DomainHunter\WhoisService;
 use Psr\Container\ContainerInterface;
 use Slim\Views\Twig;
 use Symfony\Component\Mailer\Mailer;
@@ -37,6 +38,7 @@ return [
     DomainHistoryRepository::class => fn(ContainerInterface $c) => new DomainHistoryRepository($c->get(PDO::class)),
 
     WhoisService::class => fn() => new WhoisService(),
+    DomainParser::class => fn(ContainerInterface $c) => new DomainParser($c->get(WhoisService::class)),
 
     DomainService::class => function (ContainerInterface $c) {
         $app    = $c->get('settings')['app'];
@@ -45,6 +47,7 @@ return [
             : null;
         return new DomainService(
             $c->get(WhoisService::class),
+            $c->get(DomainParser::class),
             $c->get(DomainRepository::class),
             $c->get(DomainHistoryRepository::class),
             $app['alert_email'],

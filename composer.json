@@ -6,6 +6,7 @@
     "require": {
         "php": "^8.1",
         "ext-intl": "*",
+        "bahricanli/domainhunter": "^1.0",
         "php-di/php-di": "^7.0",
         "slim/psr7": "^1.6",
         "slim/slim": "^4.12",

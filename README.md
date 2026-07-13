@@ -149,6 +149,18 @@ php -d phar.readonly=0 bin/build.php
 `.com` `.net` `.org` `.info` `.biz` `.name` `.pro` `.mobi`
 `.tel` `.travel` `.jobs` `.museum` and more
 
+## Shared Library
+
+WHOIS/RDAP lookup and domain-name parsing (Punycode/IDN, compound-TLD
+detection) live in a separate, framework-agnostic package,
+[`bahricanli/domainhunter`](https://github.com/bahricanli/laravel-domainhunter),
+so the same logic is shared between this project and domainhunter-app (the
+Laravel-based multi-user rewrite, `[private repo]`)
+instead of being duplicated. `App\Service\
+DomainService` in this repo consumes it via `BahriCanli\DomainHunter\
+WhoisService` and `BahriCanli\DomainHunter\DomainParser`; only the
+PDO-backed persistence/history/alert-email logic stays in this project.
+
 ## About
 
 [Domain Hunter](https://domainhunter.tr) is an open source project published by **[Bahri Meriç CANLI](https://bahri.info)**, a software developer from Turkey. Originally launched in 2006 as *domainhunter.org.tr* with the support of LKD (Linux Users Association) and its honorary president Mustafa Akgül, the project has been completely modernized and rewritten for PHP 8+ with a modern web interface, CLI, SMTP support, and 8-language localization.
