@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "bahricanli/domainhunter",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bahricanli/laravel-domainhunter.git",
-                "reference": "d78d8da21b87b7a5d606b08acb3087035d5cc669"
+                "reference": "3fc6c87ecea291f15a87f4c9c404c054fe79ce35"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bahricanli/laravel-domainhunter/zipball/d78d8da21b87b7a5d606b08acb3087035d5cc669",
-                "reference": "d78d8da21b87b7a5d606b08acb3087035d5cc669",
+                "url": "https://api.github.com/repos/bahricanli/laravel-domainhunter/zipball/3fc6c87ecea291f15a87f4c9c404c054fe79ce35",
+                "reference": "3fc6c87ecea291f15a87f4c9c404c054fe79ce35",
                 "shasum": ""
             },
             "require": {
@@ -38,9 +38,9 @@
             "homepage": "https://github.com/bahricanli/laravel-domainhunter",
             "support": {
                 "issues": "https://github.com/bahricanli/laravel-domainhunter/issues",
-                "source": "https://github.com/bahricanli/laravel-domainhunter/tree/v1.0.0"
+                "source": "https://github.com/bahricanli/laravel-domainhunter/tree/v1.0.1"
             },
-            "time": "2026-07-13T11:42:43+00:00"
+            "time": "2026-07-14T19:31:34+00:00"
         },
         {
             "name": "doctrine/lexer",
