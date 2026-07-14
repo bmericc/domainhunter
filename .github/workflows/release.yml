@@ -71,6 +71,7 @@ jobs:
           prerelease: false
 
       - name: Upload to SourceForge
+        continue-on-error: true
         env:
           SF_SSH_KEY: ${{ secrets.SF_SSH_KEY }}
         run: |
