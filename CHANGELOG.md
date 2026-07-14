@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.0.2] - 2026-07-14
+
+### Düzeltildi
+- `.be` domainleri için WHOIS sorgulama hatalı sonuç veriyordu (registrar
+  ve nameserver bilgileri boş geliyor, kayıt tarihi yanlış hesaplanıyordu).
+  Kök neden paylaşılan `bahricanli/domainhunter` paketindeydi: `whois.dns.be`
+  yanıt formatı genel ayrıştırıcı tarafından desteklenmiyordu ve tarih
+  ayrıştırma mantığı bazı formatlarda yılı siliyordu. `bahricanli/domainhunter`
+  v1.0.1'e güncellendi.
+
 ## [2.0.1] - 2026-07-13
 
 ### Değişti
