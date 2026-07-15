@@ -1,0 +1,8 @@
+# Her satirda bir anahtar kelime.
+# Istege bagli olarak "|" ile o kelimeye ozel on-page analiz sayfasi belirtebilirsiniz:
+#   anahtar kelime|https://example.com/sayfa
+# "#" ile baslayan satirlar yorum kabul edilir.
+
+php nedir
+php nedir|https://example.com/php-nedir
+laravel framework

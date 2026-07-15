@@ -1,0 +1,21 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+require __DIR__ . '/../vendor/autoload.php';
+
+use SeoAiChecker\Console\CheckCommand;
+use Symfony\Component\Console\Application;
+
+$envFile = __DIR__ . '/../.env';
+if (is_file($envFile)) {
+    Dotenv\Dotenv::createImmutable(dirname($envFile))->safeLoad();
+}
+
+$application = new Application('seo-ai-checker', '0.1.0');
+$command = new CheckCommand();
+$application->add($command);
+$application->setDefaultCommand((string) $command->getName(), true);
+
+exit($application->run());
