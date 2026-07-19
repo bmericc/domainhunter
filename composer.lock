@@ -8,21 +8,24 @@
     "packages": [
         {
             "name": "bahricanli/domainhunter",
-            "version": "1.0.1",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bahricanli/laravel-domainhunter.git",
-                "reference": "3fc6c87ecea291f15a87f4c9c404c054fe79ce35"
+                "reference": "5fe176236b25b1e93110e0600d3820c2df337489"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bahricanli/laravel-domainhunter/zipball/3fc6c87ecea291f15a87f4c9c404c054fe79ce35",
-                "reference": "3fc6c87ecea291f15a87f4c9c404c054fe79ce35",
+                "url": "https://api.github.com/repos/bahricanli/laravel-domainhunter/zipball/5fe176236b25b1e93110e0600d3820c2df337489",
+                "reference": "5fe176236b25b1e93110e0600d3820c2df337489",
                 "shasum": ""
             },
             "require": {
                 "ext-intl": "*",
                 "php": "^8.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^10"
             },
             "type": "library",
             "autoload": {
@@ -38,9 +41,9 @@
             "homepage": "https://github.com/bahricanli/laravel-domainhunter",
             "support": {
                 "issues": "https://github.com/bahricanli/laravel-domainhunter/issues",
-                "source": "https://github.com/bahricanli/laravel-domainhunter/tree/v1.0.1"
+                "source": "https://github.com/bahricanli/laravel-domainhunter/tree/v1.0.3"
             },
-            "time": "2026-07-14T19:31:34+00:00"
+            "time": "2026-07-19T13:35:02+00:00"
         },
         {
             "name": "doctrine/lexer",
@@ -2732,13 +2735,13 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
         "php": "^8.1",
         "ext-intl": "*"
     },
-    "platform-dev": [],
+    "platform-dev": {},
     "plugin-api-version": "2.6.0"
 }
