@@ -1,5 +1,20 @@
 # Changelog
 
+## [2.0.3] - 2026-07-19
+
+### Düzeltildi
+- Alt alan adları (`sub.example.com.br` gibi) hem düz hem bileşik TLD'lerde
+  hatalı reddediliyordu. Kök neden yine paylaşılan `bahricanli/domainhunter`
+  paketindeydi. `bahricanli/domainhunter` v1.0.3'e güncellendi:
+  - `DomainParser::parse()` artık alt alan adı etiketlerini atıp her zaman
+    doğrudan tescilli alan adına çözümleniyor.
+  - Bileşik TLD ayrımı artık elle tutulan bir listeyle tahmin edilmek yerine
+    publicsuffix.org'un ICANN bölümünü kullanan gerçek bir Public Suffix List
+    algoritmasıyla yapılıyor (ör. `example.com.br` artık doğru şekilde
+    `com.br` soneki olarak tanınıyor).
+- Kullanıcıya görünen davranışta değişiklik yok (CLI ve web arayüzü aynı
+  şekilde çalışır).
+
 ## [2.0.2] - 2026-07-14
 
 ### Düzeltildi

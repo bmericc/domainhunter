@@ -2,3 +2,4 @@
 /builds/*.phar
 *.sqlite
 .env
+.phpunit.result.cache
