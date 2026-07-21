@@ -8,7 +8,7 @@
 
 ## 動作要件
 
-- PHP 8.1+
+- PHP 8.2+
 - `ext-intl`（Punycode 用）
 - `ext-pdo`、`ext-pdo_sqlite` または `ext-pdo_mysql`
 - Composer

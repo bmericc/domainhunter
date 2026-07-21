@@ -8,7 +8,7 @@
 
 ## 环境要求
 
-- PHP 8.1+
+- PHP 8.2+
 - `ext-intl`（Punycode 支持）
 - `ext-pdo`、`ext-pdo_sqlite` 或 `ext-pdo_mysql`
 - Composer

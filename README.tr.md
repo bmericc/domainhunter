@@ -8,7 +8,7 @@ Domain adlarını takip eden, WHOIS değişikliklerini izleyen ve e-posta uyarı
 
 ## Gereksinimler
 
-- PHP 8.1+
+- PHP 8.2+
 - `ext-intl` (Punycode için)
 - `ext-pdo`, `ext-pdo_sqlite` veya `ext-pdo_mysql`
 - Composer

@@ -8,7 +8,7 @@ PHP-приложение для отслеживания доменных имё
 
 ## Требования
 
-- PHP 8.1+
+- PHP 8.2+
 - `ext-intl` (для Punycode)
 - `ext-pdo`, `ext-pdo_sqlite` или `ext-pdo_mysql`
 - Composer
