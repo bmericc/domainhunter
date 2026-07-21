@@ -1,5 +1,24 @@
 # Changelog
 
+## [2.0.4] - 2026-07-19
+
+### Eklendi
+- Proje ilk kez otomatik testlere kavuştu: PHPUnit test paketi (`tests/`),
+  gerçek şemayı taklit eden bellek-içi SQLite fixture'ı ve WHOIS ağ
+  çağrısı yapmayan sahte `WhoisService`. `DomainRepository`,
+  `DomainHistoryRepository` ve `DomainService` (ekleme/yenileme/değişiklik
+  tespiti/uyarı e-postası) kapsanıyor.
+- PHP 8.2-8.4 matrisinde testleri çalıştıran GitHub Actions workflow'u.
+
+### Düzeltildi
+- `composer.json`'daki `php` gereksinimi `^8.1` idi ama zaten zorunlu olan
+  `symfony/console: ^7.0` her sürümünde PHP >=8.2 istiyor; bu tutarsızlık
+  daha önce hiç test edilmediği için fark edilmemişti. Gereksinim `^8.2`
+  olarak düzeltildi ve `composer.lock` PHP 8.2 tabanına göre yeniden
+  kilitlendi (önceki lock, PHP 8.4 gerektiren bazı Symfony bileşenlerini
+  içeriyordu ve daha düşük sürümlerde `composer install` başarısız
+  oluyordu).
+
 ## [2.0.3] - 2026-07-19
 
 ### Düzeltildi

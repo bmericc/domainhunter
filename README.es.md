@@ -8,7 +8,7 @@ Soporta más de 80 TLDs, Punycode/IDN, SQLite/MySQL y funciona tanto con una **i
 
 ## Requisitos
 
-- PHP 8.1+
+- PHP 8.2+
 - `ext-intl` (para Punycode)
 - `ext-pdo`, `ext-pdo_sqlite` o `ext-pdo_mysql`
 - Composer
