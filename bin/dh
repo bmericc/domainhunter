@@ -14,7 +14,7 @@ use Symfony\Component\Console\Command\ListCommand;
 
 require __DIR__ . '/bootstrap.php';
 
-$app = new class('Domain Hunter', '2.0.4') extends Application {
+$app = new class('Domain Hunter', '2.0.5') extends Application {
     public function getHelp(): string
     {
         return implode("\n", [

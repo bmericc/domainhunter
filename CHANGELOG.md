@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.5] - 2026-07-21
+
+### Düzeltildi
+- CLI'nin `--version`/`-V` bayrağının bastığı sürüm (`bin/dh`, ve onun
+  symlink'i `bin/domainhunter`) v2.0.2'den beri `2.0.1` olarak kalmıştı.
+  `2.0.5`'e güncellendi.
+
 ## [2.0.4] - 2026-07-19
 
 ### Eklendi
