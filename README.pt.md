@@ -1,5 +1,14 @@
 # Domain Hunter
 
+<p align="center">
+  <a href="https://github.com/bmericc/domainhunter/actions/workflows/tests.yml"><img src="https://github.com/bmericc/domainhunter/actions/workflows/tests.yml/badge.svg" alt="tests"></a>
+  <a href="https://scorecard.dev/viewer/?uri=github.com/bmericc/domainhunter"><img src="https://api.scorecard.dev/projects/github.com/bmericc/domainhunter/badge" alt="OpenSSF Scorecard"></a>
+  <a href="https://github.com/bmericc/domainhunter/releases/latest"><img src="https://img.shields.io/github/v/release/bmericc/domainhunter" alt="Latest release"></a>
+  <a href="https://github.com/bmericc/domainhunter/actions/workflows/tests.yml"><img src="https://img.shields.io/badge/PHP-8.2%20%7C%208.3%20%7C%208.4%20tested-777BB4?logo=php&logoColor=white" alt="PHP 8.2 | 8.3 | 8.4 tested"></a>
+  <a href="COPYING"><img src="https://img.shields.io/badge/license-GPL--3.0-blue" alt="GPL-3.0"></a>
+  <a href="https://github.com/sponsors/bmericc"><img src="https://img.shields.io/badge/sponsor-%E2%9D%A4-ea4aaa?logo=githubsponsors" alt="Sponsor"></a>
+</p>
+
 Uma aplicação PHP que rastreia nomes de domínio, monitora alterações no WHOIS e envia alertas por e-mail.
 
 Suporta 80+ TLDs, Punycode/IDN, SQLite/MySQL e funciona tanto com uma **interface web** quanto com **CLI**.
