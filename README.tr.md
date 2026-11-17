@@ -155,6 +155,6 @@ php -d phar.readonly=0 bin/build.php
 
 ## Lisans
 
-GNU General Public License v3.0 — bkz. [COPYING](COPYING)
+[GNU General Public License v3.0 veya sonrası](COPYING) (GPL-3.0-or-later) ile lisanslanmıştır.
 
 Copyright (C) 2011 Bahri Meriç CANLI

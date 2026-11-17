@@ -167,6 +167,6 @@ persistence/history/alert-email logic stays in this project.
 
 ## License
 
-GNU General Public License v3.0 — see [COPYING](COPYING)
+Licensed under the [GNU General Public License v3.0 or later](COPYING) (GPL-3.0-or-later).
 
 Copyright (C) 2011 Bahri Meriç CANLI
