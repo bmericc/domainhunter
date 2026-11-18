@@ -1,5 +1,25 @@
 # Changelog
 
+## [2.0.6] - 2026-11-18
+
+### Değişti
+- Lisans her yerde GPL-3.0-or-later olarak belirtildi: `composer.json` ve
+  `COPYING` zaten öyleydi, sekiz dildeki README yalnız "v3.0" diyordu.
+- Bağımlılıklar güncellendi (`dh.phar`'a girer): `slim/slim` 4.15.3,
+  `vlucas/phpdotenv` 5.8.0 ve onunla gelen `phpoption/phpoption`,
+  `graham-campbell/result-type`, `symfony/polyfill-*`.
+
+### Eklendi
+- README'lere rozet satırı (testler, OpenSSF Scorecard, son sürüm, test
+  edilen PHP sürümleri, lisans, sponsor) ve GitHub Sponsors (`FUNDING.yml`).
+- OpenSSF Scorecard ve CodeQL workflow'ları, haftalık Dependabot
+  güncellemeleri (GitHub Actions, Composer).
+
+### Güvenlik
+- Workflow'lardaki action'lar commit SHA'sına sabitlendi; her workflow en
+  üstte salt okunur izinle çalışır, `contents: write` yalnız release ve
+  retag job'larında.
+
 ## [2.0.5] - 2026-07-21
 
 ### Düzeltildi
