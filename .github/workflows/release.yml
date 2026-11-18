@@ -11,17 +11,22 @@ on:
         required: true
         default: 'v2.0.0'
 
+permissions:
+  contents: read
+
 jobs:
   build-and-release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write   # create the tag and GitHub Release
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
           ref: master
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
         with:
           php-version: '8.4'
           extensions: intl, pdo, pdo_sqlite, pdo_mysql
@@ -58,7 +63,7 @@ jobs:
           git archive --format=tar.gz --prefix="${NAME}/" HEAD -o "builds/${NAME}.tar.gz"
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65 # v2.6.2
         with:
           tag_name: ${{ steps.version.outputs.tag }}
           name: "Domain Hunter ${{ steps.version.outputs.tag }}"
