@@ -18,7 +18,7 @@ jobs:
       contents: write
 
     steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: master
           fetch-depth: 0
@@ -61,7 +61,7 @@ jobs:
           git archive --format=tar.gz --prefix="${NAME}/" HEAD -o "builds/${NAME}.tar.gz"
 
       - name: Create Release on clean commit
-        uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65 # v2.6.2
+        uses: softprops/action-gh-release@8a0cd651e5b2365bd640854a3fa5dfc70e4875f3 # v3.0.4
         with:
           tag_name: ${{ github.event.inputs.version }}
           name: "Domain Hunter ${{ github.event.inputs.version }}"
